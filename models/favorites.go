@@ -17,7 +17,7 @@ type Favorites struct {
 	UserID        uint   `json:"user_id"`
 	FavoritesName string `json:"favorites_name"`
 	Count         int64  `json:"count"`
-	ProductIDList string `json:"product_id_lsit"`
+	ProductID     string `json:"product_id"`
 }
 
 // 创建 Favorites
