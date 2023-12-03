@@ -7,11 +7,11 @@ import (
 	"onlineshop/routers"
 )
 
-func main()  {
+func main() {
 	// 数据库链接
 	err := mysql.SqlInit()
 	if err != nil {
-		print("SqlInit Err ",err)
+		print("SqlInit Err ", err)
 	}
 	// 自动迁移
 	mysql.DB.AutoMigrate(&models.Comment{}, &models.Favorites{}, &models.Log{}, &models.Order{}, &models.Product{}, &models.Store{}, &models.User{})

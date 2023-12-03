@@ -23,6 +23,7 @@ func UsersRegister(c *gin.Context) {
 			"isSuccess": false,
 			"msg": "c.ShouldBind 获取参数失败",
 		})
+		return
 	}
 
 	if err := service.UsersRegister(&theUser); err != nil {
@@ -30,6 +31,7 @@ func UsersRegister(c *gin.Context) {
 			"isSuccess": false,
 			"msg": "service.UsersRegister 创建失败",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{

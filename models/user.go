@@ -14,11 +14,11 @@ import (
 
 type User struct {
 	gorm.Model
-	UserName string `json:"username"`
-	PassWord string `json:"password"`
+	UserName string `json:"username" binding:"required"`
+	PassWord string `json:"password" binding:"required"`
 	PhoneNum string `json:"phoneNum"`
 	UserType int    `json:"userType"`
-	Email    string `json:"email"`
+	Email    string `json:"email" binding:"required"`
 }
 
 // 创建 user

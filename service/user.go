@@ -13,6 +13,6 @@ import (
 
 func UsersRegister(theUser *models.User) (err error) {
 	err = models.CreateAUser(theUser)
-	
+
 	return err
 }
