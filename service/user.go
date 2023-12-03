@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"onlineshop/models"
 )
 
@@ -11,8 +12,17 @@ import (
  * @Date : 2023/12/03
  */
 
-func UsersRegister(theUser *models.User) (err error) {
+func CreateUsers(theUser *models.User) (err error) {
 	err = models.CreateAUser(theUser)
 
+	return err
+}
+
+func CheckUserExistByName(theUser *models.User) (err error) {
+	someOne, err := models.GetUserByName(theUser.UserName)
+
+	if someOne != nil {
+		return errors.New("Found")
+	}
 	return err
 }

@@ -50,6 +50,22 @@ func GetUserByID(id int) (theUser *User, err error) {
 	return theUser, nil
 }
 
+// 通过 UserName 获取 user
+func GetUserByName(userName string) (theUser *User, err error) {
+	result := mysql.DB.Where("UserName = ?", userName).First(&theUser)
+	err = result.Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.RowsAffected == 0 {
+		return nil, nil
+	}
+
+	return theUser, nil
+}
+
 // 更新一个存在于数据库的 user
 func UpdateAUser(theUser *User) (err error) {
 	err = mysql.DB.Save(&theUser).Error

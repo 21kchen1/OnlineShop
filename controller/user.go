@@ -26,8 +26,16 @@ func UsersRegister(c *gin.Context) {
 		return
 	}
 
-	if err := service.UsersRegister(&theUser); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
+	if err := service.CheckUserExistByName(&theUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H {
+			"isSuccess": false,
+			"msg": "CheckUserExistByName 用户名重复",
+		})
+		return
+	}
+
+	if err := service.CreateUsers(&theUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H {
 			"isSuccess": false,
 			"msg": "service.UsersRegister 创建失败",
 		})
@@ -36,7 +44,7 @@ func UsersRegister(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
-		"msg": "用户创建成功",
+		"msg": "UsersRegister 用户创建成功",
 	})
 }
 
