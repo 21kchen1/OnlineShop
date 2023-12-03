@@ -1,8 +1,8 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
 	mysql "onlineshop/mysql"
+	"github.com/jinzhu/gorm"
 )
 
 /**
@@ -52,15 +52,11 @@ func GetUserByID(id int) (theUser *User, err error) {
 
 // 通过 UserName 获取 user
 func GetUserByName(userName string) (theUser *User, err error) {
-	result := mysql.DB.Where("UserName = ?", userName).First(&theUser)
-	err = result.Error
+	theUser = new(User)
+	err = mysql.DB.Where("user_name = ?", userName).First(&theUser).Error
 
 	if err != nil {
 		return nil, err
-	}
-
-	if result.RowsAffected == 0 {
-		return nil, nil
 	}
 
 	return theUser, nil

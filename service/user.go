@@ -19,10 +19,15 @@ func CreateUsers(theUser *models.User) (err error) {
 }
 
 func CheckUserExistByName(theUser *models.User) (err error) {
-	someOne, err := models.GetUserByName(theUser.UserName)
+	_, err = models.GetUserByName(theUser.UserName)
 
-	if someOne != nil {
+	if err == nil {
 		return errors.New("Found")
 	}
+
+	if err.Error() == "record not found" {
+		return nil
+	}
+
 	return err
 }
