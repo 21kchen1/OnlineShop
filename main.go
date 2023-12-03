@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"onlineshop/models"
 	"onlineshop/mysql"
-	"github.com/gin-gonic/gin"
+	"onlineshop/routers"
 )
 
 func main()  {
@@ -17,15 +17,8 @@ func main()  {
 	mysql.DB.AutoMigrate(&models.Comment{}, &models.Favorites{}, &models.Log{}, &models.Order{}, &models.Product{}, &models.Store{}, &models.User{})
 	// 执行结束关闭数据库
 	defer mysql.DB.Close()
-	r := gin.Default()
 
-
-	// 路由组 具体待定
-	userGroup := r.Group("/user")
-	{
-		userGroup.GET("/login", func(ctx *gin.Context) {})
-	}
-
+	r := routers.SetupRouters()
 	//连接接口
 	//打开cmd,输入ipconfig,找到ipv4地址
 	err = r.Run("192.168.1.103:8080")
