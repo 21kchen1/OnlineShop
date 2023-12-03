@@ -14,14 +14,14 @@ import (
 
 type Order struct {
 	gorm.Model
-	ProductID      uint   `json:"product_id"`
-	OrderStatus    int    `json:"order_status"`
-	TotalPrice     int    `json:"total_price"`
+	ProductID      uint   `json:"productId"`
+	OrderStatus    int    `json:"orderStatus"`
+	TotalPrice     int    `json:"totalPrice"`
 	Quantity       int    `json:"quantity"`
-	OrderTime      string `json:"order_time"`
-	PayTime        string `json:"pay_time"`
-	ShippingTime   string `json:"shipping_time"`
-	CompletionTime string `json:"completion_time"`
+	OrderTime      string `json:"orderTime"`
+	PayTime        string `json:"payTime"`
+	ShippingTime   string `json:"shippingTime"`
+	CompletionTime string `json:"completionTime"`
 }
 
 // 创建 Order

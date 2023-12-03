@@ -14,8 +14,8 @@ import (
 
 type Comment struct {
 	gorm.Model
-	UserID    uint  `json:"user_id"`
-	ProductID uint  `json:"product_id"`
+	UserID    uint  `json:"userId"`
+	ProductID uint  `json:"productId"`
 	Likes     int64 `json:"likes"`
 }
 

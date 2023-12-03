@@ -14,10 +14,10 @@ import (
 
 type User struct {
 	gorm.Model
-	UserName string `json:"user_name"`
-	PassWord string `json:"pass_word"`
-	PhoneNum string `json:"phone_num"`
-	UserType int    `json:"user_type"`
+	UserName string `json:"username"`
+	PassWord string `json:"password"`
+	PhoneNum string `json:"phoneNum"`
+	UserType int    `json:"userType"`
 	Email    string `json:"email"`
 }
 
