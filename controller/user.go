@@ -1,6 +1,11 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+	"onlineshop/models"
+	"onlineshop/service"
+	"github.com/gin-gonic/gin"
+)
 
 /**
  * @File : user.go
@@ -9,10 +14,30 @@ import "github.com/gin-gonic/gin"
  * @Date : 2023/12/03
  */
 
-func UsersRegister(c *gin.Context)  {
-	
+func UsersRegister(c *gin.Context) {
+	var theUser models.User
+
+	// 自动获取数据
+	if err := c.ShouldBind(&theUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg": "c.ShouldBind 获取参数失败",
+		})
+	}
+
+	if err := service.UsersRegister(&theUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg": "service.UsersRegister 创建失败",
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg": "用户创建成功",
+	})
 }
 
-func UsersLogin(c *gin.Context)  {
+func UsersLogin(c *gin.Context) {
 
 }

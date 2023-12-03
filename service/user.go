@@ -1,7 +1,7 @@
 package service
 
 import (
-	"fmt"
+	"onlineshop/models"
 )
 
 /**
@@ -11,6 +11,8 @@ import (
  * @Date : 2023/12/03
  */
 
-func logical() {
-	fmt.Println(1)
+func UsersRegister(theUser *models.User) (err error) {
+	err = models.CreateAUser(theUser)
+	
+	return err
 }
