@@ -14,13 +14,13 @@ import (
 
 type Product struct {
 	gorm.Model
-	StoreId       uint   `json:"store_id"`
-	ProductName   string `json:"product_name"`
+	StoreId       uint   `json:"storeId"`
+	ProductName   string `json:"productName"`
 	Description   string `json:"description"`
-	ProductStatus int    `json:"product_status"`
-	MonthNum      int64  `json:"month_num"`
+	ProductStatus int    `json:"productStatus"`
+	MonthNum      int64  `json:"monthNum"`
 	Stock         int64  `json:"stock"`
-	ProductType   int    `json:"product_type"`
+	ProductType   int    `json:"productType"`
 	Likes         int64  `json:"likes"`
 	Comments      int64  `json:"comments"`
 	Price         int64  `json:"price"`

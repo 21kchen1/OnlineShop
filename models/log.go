@@ -14,7 +14,7 @@ import (
 
 type Log struct {
 	gorm.Model
-	UserID  uint   `json:"user_id"`
+	UserID  uint   `json:"userId"`
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }

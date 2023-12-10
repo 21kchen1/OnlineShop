@@ -14,10 +14,10 @@ import (
 
 type Favorites struct {
 	gorm.Model
-	UserID        uint   `json:"user_id"`
-	FavoritesName string `json:"favorites_name"`
+	UserID        uint   `json:"userId"`
+	FavoritesName string `json:"favoritesName"`
 	Count         int64  `json:"count"`
-	ProductIDList string `json:"product_id_lsit"`
+	ProductID     string `json:"productId"`
 }
 
 // 创建 Favorites
