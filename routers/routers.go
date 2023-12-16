@@ -18,7 +18,7 @@ func SetupRouters() *gin.Engine {
 	// 路由组 具体待定
 	userGroup := r.Group("/user")
 	{
-		userGroup.GET("/login", controller.UsersLogin)
+		userGroup.POST("/login", controller.UsersLogin) //路由改为post
 		userGroup.POST("/register", controller.UsersRegister)
 	}
 
