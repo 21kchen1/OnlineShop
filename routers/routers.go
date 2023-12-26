@@ -26,7 +26,10 @@ func SetupRouters() *gin.Engine {
 	productGroup := r.Group("/product")
 	{
 		productGroup.POST("/getList", controller.GetProductList)
+		// 根据商品id获取单个商品具体信息
 		productGroup.POST("/getProduct", controller.GetProduct)
+		// 根据商品id删除商品
+		productGroup.POST("/deleteProduct", controller.DeleteProduct)
 	}
 
 	return r

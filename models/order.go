@@ -14,6 +14,7 @@ import (
 
 type Order struct {
 	gorm.Model
+	OrderID        uint   `json:"orderId"`
 	ProductID      uint   `json:"productId"`
 	OrderStatus    int    `json:"orderStatus"`
 	TotalPrice     int    `json:"totalPrice"`

@@ -56,7 +56,7 @@ func GetProductList(c *gin.Context) {
  */
 func GetProduct(c *gin.Context) {
 	var requestData struct {
-		ProductId uint `json:"productId"`
+		ProductId int `json:"productId"`
 	}
 
 	// 获取请求参数
@@ -84,5 +84,41 @@ func GetProduct(c *gin.Context) {
 		"isSuccess": true,
 		"msg":       "获取商品成功",
 		"data":      product,
+	})
+}
+
+/**
+ * @File : product.go
+ * @Description : 根据id删除商品
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func DeleteProduct(c *gin.Context) {
+	var requestData struct {
+		ProductId int `json:"productId"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	err := service.DeleteProduct(requestData.ProductId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "删除商品失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusInternalServerError, gin.H{
+		"isSuccess": true,
+		"msg":       "删除商品成功",
 	})
 }

@@ -55,3 +55,14 @@ func GetProduct(productId uint) (product map[string]interface{}, err error) {
 
 	return
 }
+
+/**
+ * @File : product.go
+ * @Description : 根据id删除商品
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func DeleteProduct(productId int) (err error) {
+	err = models.DeleteProductByID(productId)
+	return
+}
