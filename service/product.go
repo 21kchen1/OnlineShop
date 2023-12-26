@@ -37,8 +37,8 @@ func GetProductList(searchKey, productType string) (productList []map[string]int
  * @Author : chen
  * @Date : 2023-12-26
  */
-func GetProduct(productId uint) (product map[string]interface{}, err error) {
-	theProduct, err := models.GetProductByID(int(productId))
+func GetProduct(productId int) (product map[string]interface{}, err error) {
+	theProduct, err := models.GetProductByID(productId)
 
 	if err != nil {
 		return nil, err
