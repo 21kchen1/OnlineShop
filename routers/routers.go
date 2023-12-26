@@ -15,11 +15,18 @@ import (
 func SetupRouters() *gin.Engine {
 	r := gin.Default()
 
-	// 路由组 具体待定
+	// 用户相关路由
 	userGroup := r.Group("/user")
 	{
-		userGroup.POST("/login", controller.UsersLogin) //路由改为post
+		userGroup.POST("/login", controller.UsersLogin)
 		userGroup.POST("/register", controller.UsersRegister)
+	}
+
+	// 商品相关路由
+	productGroup := r.Group("/product")
+	{
+		productGroup.POST("/getList", controller.GetProductList)
+		// 添加其他商品相关的路由，例如添加商品、更新商品信息等
 	}
 
 	return r
