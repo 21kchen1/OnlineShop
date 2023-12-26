@@ -14,7 +14,7 @@ func main() {
 		print("SqlInit Err ", err)
 	}
 	// 自动迁移
-	mysql.DB.AutoMigrate(&models.Comment{}, &models.Favorites{}, &models.Log{}, &models.Order{}, &models.Product{}, &models.Store{}, &models.User{})
+	mysql.DB.AutoMigrate(&models.Comment{}, &models.Favorites{}, &models.Log{}, &models.Order{}, &models.Product{}, &models.Store{}, &models.User{}, &models.FavoritesLinkProduct{})
 	// 执行结束关闭数据库
 	defer mysql.DB.Close()
 
