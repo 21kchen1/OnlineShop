@@ -8,13 +8,6 @@
             "request": "launch",
             "mode": "auto",
             "program": "${fileDirname}",
-            "env": {
-                // go代码工作区
-                "GOPATH": "D:\\vscode\\code\\projects_vscode\\Go\\GoPath",
-                // go本体位置
-                "GOROOT": "D:\\vscode\\code\\projects_vscode\\Go\\Bin"
-            },
-            "args": [],
             "console": "externalTerminal"
         }
     ]
