@@ -14,6 +14,7 @@ import (
 
 type Favorites struct {
 	gorm.Model
+	FavoritesID   uint   `json:"favoritesId"`
 	UserID        uint   `json:"userId"`
 	FavoritesName string `json:"favoritesName"`
 	Count         int64  `json:"count"`
@@ -47,6 +48,17 @@ func GetFavoritesByID(id int) (theFavorites *Favorites, err error) {
 	}
 
 	return theFavorites, nil
+}
+
+// 通过 FavoritesId 获取所有 Favorites
+func GetAllFavoritesByFavoritesID(favoritesId int) (theFavoritesList []*Favorites, err error) {
+	err = mysql.DB.Where("favoritesid = ?", favoritesId).Find(&theFavoritesList).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return
 }
 
 // 更新一个存在于数据库的 Favorites

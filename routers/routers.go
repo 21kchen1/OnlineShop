@@ -26,7 +26,7 @@ func SetupRouters() *gin.Engine {
 	productGroup := r.Group("/product")
 	{
 		productGroup.POST("/getList", controller.GetProductList)
-		// 添加其他商品相关的路由，例如添加商品、更新商品信息等
+		productGroup.POST("/getProduct", controller.GetProduct)
 	}
 
 	return r

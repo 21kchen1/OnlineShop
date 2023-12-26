@@ -30,3 +30,28 @@ func GetProductList(searchKey, productType string) (productList []map[string]int
 
 	return productList, nil
 }
+
+/**
+ * @File : product.go
+ * @Description : 获取商品信息
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func GetProduct(productId uint) (product map[string]interface{}, err error) {
+	theProduct, err := models.GetProductByID(int(productId))
+
+	if err != nil {
+		return nil, err
+	}
+
+	product = map[string]interface{}{
+		"name":      theProduct.ID,
+		"price":     theProduct.Price,
+		"label":     theProduct.Description,
+		"sellerId":  theProduct.StoreId,
+		"creatData": theProduct.CreatedAt,
+		"sellerNum": theProduct.MonthNum,
+	}
+
+	return
+}
