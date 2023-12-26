@@ -30,6 +30,8 @@ func SetupRouters() *gin.Engine {
 		productGroup.POST("/getProduct", controller.GetProduct)
 		// 根据商品id删除商品
 		productGroup.POST("/deleteProduct", controller.DeleteProduct)
+		// 根据商品id获取数量
+		productGroup.POST("/getQuantity", controller.GetProductNum)
 	}
 
 	return r

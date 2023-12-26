@@ -66,3 +66,19 @@ func DeleteProduct(productId int) (err error) {
 	err = models.DeleteProductByID(productId)
 	return
 }
+
+/**
+ * @File : product.go
+ * @Description : 根据id获取商品数量
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func GetProductNum(productId int) (num int64, err error) {
+	theProduct, err := models.GetProductByID(productId)
+
+	if err != nil {
+		return -1, err
+	}
+
+	return theProduct.Stock, err
+}

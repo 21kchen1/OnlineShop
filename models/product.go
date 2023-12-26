@@ -19,8 +19,8 @@ type Product struct {
 	ProductName   string `json:"productName"`
 	Description   string `json:"description"`
 	ProductStatus int    `json:"productStatus"`
-	MonthNum      int64  `json:"monthNum"`
-	Stock         int64  `json:"stock"`
+	MonthNum      int64  `json:"monthNum"` // 月销量
+	Stock         int64  `json:"stock"`    // 库存数量
 	ProductType   int    `json:"productType"`
 	Likes         int64  `json:"likes"`
 	Comments      int64  `json:"comments"`

@@ -8,10 +8,10 @@
 package controller
 
 import (
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"onlineshop/service"
 	"strconv"
-	"github.com/gin-gonic/gin"
 )
 
 // GetProductList 获取商品列表接口
@@ -120,5 +120,42 @@ func DeleteProduct(c *gin.Context) {
 	c.JSON(http.StatusInternalServerError, gin.H{
 		"isSuccess": true,
 		"msg":       "删除商品成功",
+	})
+}
+
+/**
+ * @File : product.go
+ * @Description : 根据id获得商品数量
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func GetProductNum(c *gin.Context) {
+	var requestData struct {
+		ProductId int `json:"productId"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	stock, err := service.GetProductNum(requestData.ProductId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "获取商品数量失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusInternalServerError, gin.H{
+		"isSuccess": true,
+		"msg":       "获取商品数量成功",
+		"quantity":  stock,
 	})
 }
