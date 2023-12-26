@@ -11,7 +11,6 @@ import (
  * @Author : chen
  * @Date : 2023/12/03
  */
-
 func SetupRouters() *gin.Engine {
 	r := gin.Default()
 
@@ -32,6 +31,8 @@ func SetupRouters() *gin.Engine {
 		productGroup.POST("/deleteProduct", controller.DeleteProduct)
 		// 根据商品id获取数量
 		productGroup.POST("/getQuantity", controller.GetProductNum)
+		// 根据商品id修改库存数量
+		productGroup.POST("/editQuantity", controller.EditProductNum)
 	}
 
 	return r

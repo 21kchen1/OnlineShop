@@ -159,3 +159,40 @@ func GetProductNum(c *gin.Context) {
 		"quantity":  stock,
 	})
 }
+
+/**
+ * @File : product.go
+ * @Description : 根据id修改商品数量
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func EditProductNum(c *gin.Context) {
+	var requestData struct {
+		ProductId    int `json:"productId"`
+		EditQuantity int `json:"editQuantity"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	err := service.EditProductNum(requestData.ProductId, requestData.EditQuantity)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "修改商品数量失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusInternalServerError, gin.H{
+		"isSuccess": true,
+		"msg":       "修改商品数量成功",
+	})
+}

@@ -82,3 +82,23 @@ func GetProductNum(productId int) (num int64, err error) {
 
 	return theProduct.Stock, err
 }
+
+/**
+ * @File : product.go
+ * @Description : 根据修改商品数量
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func EditProductNum(productId int, editQuantity int) (err error) {
+	theProduct, err := models.GetProductByID(productId)
+
+	if err != nil {
+		return err
+	}
+
+	theProduct.Stock = int64(editQuantity)
+
+	err = models.UpdateAProduct(theProduct)
+
+	return
+}
