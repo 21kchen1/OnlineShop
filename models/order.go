@@ -14,7 +14,8 @@ import (
 
 type Order struct {
 	gorm.Model
-	ProductID      uint   `json:"productId"`
+	OrderID        int    `json:"orderId"`
+	ProductID      int    `json:"productId"`
 	OrderStatus    int    `json:"orderStatus"`
 	TotalPrice     int    `json:"totalPrice"`
 	Quantity       int    `json:"quantity"`
@@ -43,11 +44,11 @@ func GetAllOrder() (theOrderList []*Order, err error) {
 }
 
 // 通过 id 获取 Order
-func GetOrderByID(id int) (theOrder *Order, err error) {
+func GetOrderByID(id int) (theOrder Order, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theOrder).Error
 
 	if err != nil {
-		return nil, err
+		return theOrder, err
 	}
 
 	return theOrder, nil
