@@ -36,9 +36,20 @@ func GetFavoritesList(userId int) (favIdList []int, err error) {
  * @Author : chen
  * @Date : 2023/12/27
  */
-
 func AddFavorites(theFavorites models.Favorites) (err error) {
 	err = models.CreateAFavorites(&theFavorites)
+
+	return
+}
+
+/**
+ * @File : favorites.go
+ * @Description : 删除收藏夹
+ * @Author : chen
+ * @Date : 2023/12/27
+ */
+func DeleteFavorites(favoId int) (err error) {
+	err = models.DeleteFavoritesByID(favoId)
 
 	return
 }

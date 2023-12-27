@@ -87,3 +87,40 @@ func AddFavorites(c *gin.Context) {
 		"msg":       "添加收藏夹成功",
 	})
 }
+
+/**
+ * @File : favorites.go
+ * @Description : 删除收藏夹
+ * @Author : chen
+ * @Date : 2023-12-27
+ */
+func DeleteFavorites(c *gin.Context)  {
+	var requestData struct {
+		FavoritesId int `json:"favoritesId"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	// 删除收藏夹
+	err := service.DeleteFavorites(requestData.FavoritesId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "删除收藏夹失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "删除收藏夹成功",
+	})
+}
