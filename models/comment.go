@@ -14,9 +14,9 @@ import (
 
 type Comment struct {
 	gorm.Model
-	UserID    uint  `json:"userId"`
-	ProductID uint  `json:"productId"`
-	Likes     int64 `json:"likes"`
+	UserID    int `json:"userId"`
+	ProductID int `json:"productId"`
+	Likes     int `json:"likes"`
 }
 
 // 创建 Comment

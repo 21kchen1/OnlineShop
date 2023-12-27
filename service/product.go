@@ -9,6 +9,7 @@ package service
 
 import (
 	"onlineshop/models"
+	"reflect"
 )
 
 // GetProductList 获取商品列表服务函数
@@ -29,6 +30,18 @@ func GetProductList(searchKey, productType string) (productList []map[string]int
 	}
 
 	return productList, nil
+}
+
+/**
+ * @File : product.go
+ * @Description : 添加商品
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func AddProduct(theProduct *models.Product) (err error) {
+	err = models.CreateAProduct(theProduct)
+
+	return
 }
 
 /**
@@ -69,11 +82,44 @@ func DeleteProduct(productId int) (err error) {
 
 /**
  * @File : product.go
+ * @Description : 根据id修改商品信息
+ * @Author : chen
+ * @Date : 2023-12-27
+ */
+func EditProduct(productId int, theProduct models.Product) (err error) {
+	preProduct, err := models.GetProductByID(productId)
+
+	if err != nil {
+		return err
+	}
+
+	// 只选择非空的属性进行更新
+	typeOfProduct := reflect.TypeOf(preProduct).Elem()
+	valueOfPre := reflect.ValueOf(preProduct).Elem()
+	valueOfNew := reflect.ValueOf(theProduct).Elem()
+
+	for i := 0; i < typeOfProduct.NumField(); i++ {
+		fieldPre := valueOfPre.Field(i)
+		fieldNew := valueOfNew.Field(i)
+
+		// 非空
+		if !fieldNew.IsZero() {
+			fieldPre.Set(fieldNew)
+		}
+	}
+
+	err = models.UpdateAProduct(&preProduct)
+
+	return err
+}
+
+/**
+ * @File : product.go
  * @Description : 根据id获取商品数量
  * @Author : chen
  * @Date : 2023-12-26
  */
-func GetProductNum(productId int) (num int64, err error) {
+func GetProductNum(productId int) (num int, err error) {
 	theProduct, err := models.GetProductByID(productId)
 
 	if err != nil {
@@ -96,9 +142,9 @@ func EditProductNum(productId int, editQuantity int) (err error) {
 		return err
 	}
 
-	theProduct.Stock = int64(editQuantity)
+	theProduct.Stock = editQuantity
 
-	err = models.UpdateAProduct(theProduct)
+	err = models.UpdateAProduct(&theProduct)
 
 	return
 }

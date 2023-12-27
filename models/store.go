@@ -14,12 +14,12 @@ import (
 
 type Store struct {
 	gorm.Model
-	UserID       uint   `json:"userId"`
+	UserID       int    `json:"userId"`
 	StoreName    string `json:"storeName"`
 	ContactInfo  string `json:"contactInfo"`
-	Followers    int64  `json:"followers"`
-	ProductCount int64  `json:"productCount"`
-	SalesNum     int64  `json:"saleNum"`
+	Followers    int    `json:"followers"`
+	ProductCount int    `json:"productCount"`
+	SalesNum     int    `json:"saleNum"`
 }
 
 // 创建 Store

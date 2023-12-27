@@ -18,10 +18,13 @@ func main() {
 	// 执行结束关闭数据库
 	defer mysql.DB.Close()
 
+	// 输入测试数据
+	// test.AddData()
+
 	r := routers.SetupRouters()
 	//连接接口
 	//打开cmd,输入ipconfig,找到ipv4地址
-	err = r.Run("192.168.1.100:8080")
+	err = r.Run("192.168.1.101:8080")
 	if err != nil {
 		fmt.Println("Gin Err ", err)
 	}

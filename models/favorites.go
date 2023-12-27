@@ -14,9 +14,9 @@ import (
 
 type Favorites struct {
 	gorm.Model
-	UserID        uint   `json:"userId"`
+	UserID        int    `json:"userId"`
 	FavoritesName string `json:"favoritesName"`
-	Count         int64  `json:"count"`
+	Count         int    `json:"count"`
 	ProductID     string `json:"productId"`
 }
 

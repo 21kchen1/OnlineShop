@@ -10,6 +10,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"onlineshop/models"
 	"onlineshop/service"
 	"strconv"
 )
@@ -45,6 +46,40 @@ func GetProductList(c *gin.Context) {
 		"isSuccess": true,
 		"msg":       "获取商品列表成功",
 		"data":      productList,
+	})
+}
+
+/**
+ * @File : product.go
+ * @Description : 根据信息添加商品
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func AddProduct(c *gin.Context) {
+	var requestData models.Product
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	err := service.AddProduct(&requestData)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "添加商品失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "添加商品成功",
 	})
 }
 
@@ -117,9 +152,55 @@ func DeleteProduct(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusInternalServerError, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "删除商品成功",
+	})
+}
+
+/**
+ * @File : product.go
+ * @Description : 根据id修改商品信息
+ * @Author : chen
+ * @Date : 2023-12-26
+ */
+func EditProduct(c *gin.Context) {
+	var requestData struct {
+		ProductId int `json:"productId"`
+	}
+	var theProduct models.Product
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&theProduct); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	err := service.EditProduct(requestData.ProductId ,theProduct)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "修改商品信息失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "修改商品信息成功",
 	})
 }
 
@@ -153,7 +234,7 @@ func GetProductNum(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusInternalServerError, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "获取商品数量成功",
 		"quantity":  stock,
@@ -191,7 +272,7 @@ func EditProductNum(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusInternalServerError, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "修改商品数量成功",
 	})
