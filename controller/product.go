@@ -167,8 +167,8 @@ func DeleteProduct(c *gin.Context) {
 func EditProduct(c *gin.Context) {
 	var requestData struct {
 		ProductId int `json:"productId"`
+		models.Product
 	}
-	var theProduct models.Product
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
@@ -179,15 +179,9 @@ func EditProduct(c *gin.Context) {
 		return
 	}
 
-	// 获取请求参数
-	if err := c.ShouldBindJSON(&theProduct); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
-		return
-	}
-
+	var theProduct models.Product
+	{}
+	theProduct = requestData.Product
 	err := service.EditProduct(requestData.ProductId ,theProduct)
 
 	if err != nil {

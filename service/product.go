@@ -94,17 +94,17 @@ func EditProduct(productId int, theProduct models.Product) (err error) {
 	}
 
 	// 只选择非空的属性进行更新
-	typeOfProduct := reflect.TypeOf(preProduct).Elem()
-	valueOfPre := reflect.ValueOf(preProduct).Elem()
-	valueOfNew := reflect.ValueOf(theProduct).Elem()
+	typeOfProduct := reflect.TypeOf(&preProduct).Elem()
+	valueOfPre := reflect.ValueOf(&preProduct).Elem()
+	valueOfNew := reflect.ValueOf(theProduct)
 
 	for i := 0; i < typeOfProduct.NumField(); i++ {
-		fieldPre := valueOfPre.Field(i)
+		field := typeOfProduct.Field(i)
 		fieldNew := valueOfNew.Field(i)
 
 		// 非空
 		if !fieldNew.IsZero() {
-			fieldPre.Set(fieldNew)
+			valueOfPre.FieldByName(field.Name).Set(fieldNew)
 		}
 	}
 
