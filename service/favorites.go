@@ -3,6 +3,8 @@ package service
 import (
 	"errors"
 	"onlineshop/models"
+
+	"github.com/jinzhu/gorm"
 )
 
 /**
@@ -84,4 +86,83 @@ func UpdataFavoName(favoritesId int, FavoritesName string) (err error) {
 	err = models.UpdateAFavorites(&theFavorites)
 
 	return
+}
+
+/**
+ * @File : favorites.go
+ * @Description : 更新收藏夹名称
+ * @Author : chen
+ * @Date : 2023/12/27
+ */
+func GetFavoProductList(favoritesId int) (favProductIdList []int, err error) {
+	itemList, err := models.GetFavoritesLinkProductByFavoritesId(favoritesId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// 生成 id 列表
+	for i := range itemList {
+		favProductIdList = append(favProductIdList, itemList[i].ProductID)
+	}
+
+	return
+}
+
+/**
+ * @File : favorites.go
+ * @Description : 添加收藏夹商品
+ * @Author : chen
+ * @Date : 2023/12/27
+ */
+func AddFavoProduct(favoLinkProduct models.FavoritesLinkProduct) (err error) {
+	if favoLinkProduct.FavoritesID == 0 || favoLinkProduct.ProductID == 0 {
+		err = errors.New("收藏夹物品信息缺失")
+		return
+	}
+
+	// 检测是否存在收藏夹
+	_, err = models.GetFavoritesByID(favoLinkProduct.FavoritesID)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return
+	}
+	// 检测是否存在商品
+	_, err = models.GetProductByID(favoLinkProduct.ProductID)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return
+	}
+
+	// 检测是否重复
+	favProductIdList, err := GetFavoProductList(favoLinkProduct.FavoritesID)
+	if err != nil {
+		return
+	}
+
+	for i := range favProductIdList {
+		if favProductIdList[i] != favoLinkProduct.ProductID {
+			continue
+		}
+		err = errors.New("收藏夹物品重复")
+		return
+	}
+
+	err = models.AddProductToFavorites(&favoLinkProduct)
+
+	return
+}
+
+/**
+ * @File : favorites.go
+ * @Description : 添加收藏夹商品
+ * @Author : chen
+ * @Date : 2023/12/27
+ */
+func DeleteFavoProduct(favoLinkProduct models.FavoritesLinkProduct) (err error) {
+	if favoLinkProduct.FavoritesID == 0 || favoLinkProduct.ProductID == 0 {
+		err = errors.New("收藏夹物品信息缺失")
+		return
+	}
+	err = models.DeleteFavoritesLinkProductByFIdAndPId(favoLinkProduct.FavoritesID, favoLinkProduct.ProductID)
+
+	return err
 }

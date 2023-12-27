@@ -30,8 +30,29 @@ var testFavoList = []models.Favorites {
 	},
 }
 
+var testFPList = []models.FavoritesLinkProduct {
+	{
+		FavoritesID: 1,
+		ProductID: 1,
+	},
+	{
+		FavoritesID: 1,
+		ProductID: 2,
+	},
+	{
+		FavoritesID: 1,
+		ProductID: 5,
+	},
+}
+
 func AddFavoData() {
 	for i := range testFavoList {
 		service.AddFavorites(testFavoList[i])
+	}
+}
+
+func AddFPList() {
+	for i := range testFPList {
+		service.AddFavoProduct(testFPList[i])
 	}
 }

@@ -161,3 +161,111 @@ func UpdataFavoName(c *gin.Context) {
 		"msg":       "更新收藏夹名称成功",
 	})
 }
+
+/**
+ * @File : favorites.go
+ * @Description : 获取收藏夹商品
+ * @Author : chen
+ * @Date : 2023-12-27
+ */
+func GetFavoProductList(c *gin.Context) {
+	var requestData struct {
+		FavoritesId int `json:"favoritesId"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	// 获取收藏夹商品列表
+	favProductIdList, err := service.GetFavoProductList(requestData.FavoritesId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "获取收藏夹商品id列表失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "获取收藏夹商品id列表成功",
+		"data":      favProductIdList,
+	})
+}
+
+/**
+ * @File : favorites.go
+ * @Description : 收藏夹添加商品
+ * @Author : chen
+ * @Date : 2023-12-27
+ */
+func AddFavoProduct(c *gin.Context) {
+	var requestData models.FavoritesLinkProduct
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	// 添加收藏夹商品
+	err := service.AddFavoProduct(requestData)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "添加收藏夹商品失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "添加收藏夹商品成功",
+	})
+}
+
+/**
+ * @File : favorites.go
+ * @Description : 收藏夹删除商品
+ * @Author : chen
+ * @Date : 2023-12-27
+ */
+func DeleteFavoProduct(c *gin.Context) {
+	var requestData models.FavoritesLinkProduct
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	// 删除收藏夹商品
+	err := service.DeleteFavoProduct(requestData)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "删除收藏夹商品失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "删除收藏夹商品成功",
+	})
+}
