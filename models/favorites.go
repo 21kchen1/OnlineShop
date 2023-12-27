@@ -14,10 +14,9 @@ import (
 
 type Favorites struct {
 	gorm.Model
-	UserID        int    `json:"userId"`
-	FavoritesName string `json:"favoritesName"`
-	Count         int    `json:"count"`
-	ProductID     string `json:"productId"`
+	UserID        int    `json:"userId"`        // 用户 ID
+	FavoritesName string `json:"favoritesName"` // 收藏夹名称
+	Count         int    `json:"count"`         // 收藏数量
 }
 
 // 创建 Favorites
@@ -61,4 +60,11 @@ func DeleteFavoritesByID(id int) (err error) {
 	err = mysql.DB.Where("id = ?", id).Delete(Favorites{}).Error
 
 	return err
+}
+
+// 通过用户id 获取对应 Favorites 列表
+func GetFavoListByUserId(userId int) (theFavoritesList []*Favorites, err error) {
+	err = mysql.DB.Where("user_id = ?", userId).Find(&theFavoritesList).Error
+
+	return
 }

@@ -110,7 +110,7 @@ func EditProduct(productId int, theProduct models.Product) (err error) {
 
 	err = models.UpdateAProduct(&preProduct)
 
-	return err
+	return 
 }
 
 /**

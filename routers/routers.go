@@ -39,5 +39,14 @@ func SetupRouters() *gin.Engine {
 		productGroup.POST("/editQuantity", controller.EditProductNum)
 	}
 
+	// 收藏夹列表
+	favoritesGroup := r.Group("/favorites")
+	{
+		// 根据 id 获取收藏夹列表
+		favoritesGroup.POST("/getList", controller.GetFavoritesList)
+		// 创建收藏夹
+		favoritesGroup.POST("/add", controller.AddFavorites)
+	}
+
 	return r
 }
