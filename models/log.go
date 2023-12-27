@@ -38,11 +38,11 @@ func GetAllLog() (theLogList []*Log, err error) {
 }
 
 // 通过 id 获取 Log
-func GetLogByID(id int) (theLog *Log, err error) {
+func GetLogByID(id int) (theLog Log, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theLog).Error
 
 	if err != nil {
-		return nil, err
+		return theLog, err
 	}
 
 	return theLog, nil

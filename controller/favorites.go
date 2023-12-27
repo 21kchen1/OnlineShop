@@ -1,11 +1,10 @@
 package controller
 
 import (
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"onlineshop/models"
 	"onlineshop/service"
-
-	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -94,7 +93,7 @@ func AddFavorites(c *gin.Context) {
  * @Author : chen
  * @Date : 2023-12-27
  */
-func DeleteFavorites(c *gin.Context)  {
+func DeleteFavorites(c *gin.Context) {
 	var requestData struct {
 		FavoritesId int `json:"favoritesId"`
 	}
@@ -122,5 +121,43 @@ func DeleteFavorites(c *gin.Context)  {
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "删除收藏夹成功",
+	})
+}
+
+/**
+ * @File : favorites.go
+ * @Description : 更新收藏夹名称
+ * @Author : chen
+ * @Date : 2023-12-27
+ */
+func UpdataFavoName(c *gin.Context) {
+	var requestData struct {
+		FavoritesId   int    `json:"favoritesId"`
+		FavoritesName string `json:"favoritesName"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	// 更新收藏夹名称
+	err := service.UpdataFavoName(requestData.FavoritesId, requestData.FavoritesName)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "更新收藏夹名称失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "更新收藏夹名称成功",
 	})
 }

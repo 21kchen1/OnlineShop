@@ -41,11 +41,11 @@ func GetAllStore() (theStoreList []*Store, err error) {
 }
 
 // 通过 id 获取 Store
-func GetStoreByID(id int) (theStore *Store, err error) {
+func GetStoreByID(id int) (theStore Store, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theStore).Error
 
 	if err != nil {
-		return nil, err
+		return theStore, err
 	}
 
 	return theStore, nil

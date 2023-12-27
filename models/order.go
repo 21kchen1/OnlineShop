@@ -44,11 +44,11 @@ func GetAllOrder() (theOrderList []*Order, err error) {
 }
 
 // 通过 id 获取 Order
-func GetOrderByID(id int) (theOrder *Order, err error) {
+func GetOrderByID(id int) (theOrder Order, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theOrder).Error
 
 	if err != nil {
-		return nil, err
+		return theOrder, err
 	}
 
 	return theOrder, nil

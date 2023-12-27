@@ -38,11 +38,11 @@ func GetAllFavorites() (theFavoritesList []*Favorites, err error) {
 }
 
 // 通过 id 获取 Favorites
-func GetFavoritesByID(id int) (theFavorites *Favorites, err error) {
+func GetFavoritesByID(id int) (theFavorites Favorites, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theFavorites).Error
 
 	if err != nil {
-		return nil, err
+		return theFavorites, err
 	}
 
 	return theFavorites, nil

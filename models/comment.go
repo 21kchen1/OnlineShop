@@ -38,11 +38,11 @@ func GetAllComment() (theCommentList []*Comment, err error) {
 }
 
 // 通过 id 获取 Comment
-func GetCommentByID(id int) (theComment *Comment, err error) {
+func GetCommentByID(id int) (theComment Comment, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theComment).Error
 
 	if err != nil {
-		return nil, err
+		return theComment, err
 	}
 
 	return theComment, nil

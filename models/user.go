@@ -40,11 +40,11 @@ func GetAllUser() (theUserList []*User, err error) {
 }
 
 // 通过 id 获取 user
-func GetUserByID(id int) (theUser *User, err error) {
+func GetUserByID(id int) (theUser User, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theUser).Error
 
 	if err != nil {
-		return nil, err
+		return theUser, err
 	}
 
 	return theUser, nil

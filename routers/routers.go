@@ -48,7 +48,8 @@ func SetupRouters() *gin.Engine {
 		favoritesGroup.POST("/add", controller.AddFavorites)
 		// 删除收藏夹
 		favoritesGroup.POST("/delete", controller.DeleteFavorites)
-		// xg
+		// 修改收藏夹名称
+		favoritesGroup.POST("/updata", controller.UpdataFavoName)
 	}
 
 	return r

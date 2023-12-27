@@ -8,6 +8,7 @@
 package service
 
 import (
+	"errors"
 	"onlineshop/models"
 	"reflect"
 )
@@ -39,6 +40,10 @@ func GetProductList(searchKey, productType string) (productList []map[string]int
  * @Date : 2023-12-26
  */
 func AddProduct(theProduct *models.Product) (err error) {
+	if theProduct.ProductName == "" {
+		err = errors.New("产品名不可为空")
+		return
+	}
 	err = models.CreateAProduct(theProduct)
 
 	return
@@ -110,7 +115,7 @@ func EditProduct(productId int, theProduct models.Product) (err error) {
 
 	err = models.UpdateAProduct(&preProduct)
 
-	return 
+	return
 }
 
 /**
@@ -136,6 +141,10 @@ func GetProductNum(productId int) (num int, err error) {
  * @Date : 2023-12-26
  */
 func EditProductNum(productId int, editQuantity int) (err error) {
+	if editQuantity < 0 {
+		err = errors.New("商品数量不可小于0")
+		return
+	}
 	theProduct, err := models.GetProductByID(productId)
 
 	if err != nil {
