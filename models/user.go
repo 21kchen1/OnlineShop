@@ -1,8 +1,8 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
 	mysql "onlineshop/mysql"
+	"github.com/jinzhu/gorm"
 )
 
 /**
@@ -14,11 +14,11 @@ import (
 
 type User struct {
 	gorm.Model
-	UserName string `json:"user_name"`
-	PassWord string `json:"pass_word"`
-	PhoneNum string `json:"phone_num"`
-	UserType int    `json:"user_type"`
-	Email    string `json:"email"`
+	UserName string `json:"username" binding:"required"`
+	PassWord string `json:"password" binding:"required"`
+	PhoneNum string `json:"phoneNum"`
+	UserType int    `json:"userType"`
+	Email    string `json:"email" binding:"required"`
 }
 
 // 创建 user
@@ -40,8 +40,20 @@ func GetAllUser() (theUserList []*User, err error) {
 }
 
 // 通过 id 获取 user
-func GetUserByID(id int) (theUser *User, err error) {
+func GetUserByID(id int) (theUser User, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theUser).Error
+
+	if err != nil {
+		return theUser, err
+	}
+
+	return theUser, nil
+}
+
+// 通过 UserName 获取 user
+func GetUserByName(userName string) (theUser *User, err error) {
+	theUser = new(User)
+	err = mysql.DB.Where("user_name = ?", userName).First(&theUser).Error
 
 	if err != nil {
 		return nil, err

@@ -14,14 +14,15 @@ import (
 
 type Order struct {
 	gorm.Model
-	ProductID      uint   `json:"product_id"`
-	OrderStatus    int    `json:"order_status"`
-	TotalPrice     int    `json:"total_price"`
+	OrderID        int    `json:"orderId"`
+	ProductID      int    `json:"productId"`
+	OrderStatus    int    `json:"orderStatus"`
+	TotalPrice     int    `json:"totalPrice"`
 	Quantity       int    `json:"quantity"`
-	OrderTime      string `json:"order_time"`
-	PayTime        string `json:"pay_time"`
-	ShippingTime   string `json:"shipping_time"`
-	CompletionTime string `json:"completion_time"`
+	OrderTime      string `json:"orderTime"`
+	PayTime        string `json:"payTime"`
+	ShippingTime   string `json:"shippingTime"`
+	CompletionTime string `json:"completionTime"`
 }
 
 // 创建 Order
@@ -43,11 +44,11 @@ func GetAllOrder() (theOrderList []*Order, err error) {
 }
 
 // 通过 id 获取 Order
-func GetOrderByID(id int) (theOrder *Order, err error) {
+func GetOrderByID(id int) (theOrder Order, err error) {
 	err = mysql.DB.Where("id = ?", id).First(&theOrder).Error
 
 	if err != nil {
-		return nil, err
+		return theOrder, err
 	}
 
 	return theOrder, nil
