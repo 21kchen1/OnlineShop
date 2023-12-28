@@ -1,8 +1,9 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"onlineshop/controller"
+
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -57,6 +58,6 @@ func SetupRouters() *gin.Engine {
 		// 删除收藏夹物品
 		favoritesGroup.POST("/deleteProduct", controller.DeleteFavoProduct)
 	}
-
+	// test
 	return r
 }
