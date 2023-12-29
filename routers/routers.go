@@ -20,6 +20,8 @@ func SetupRouters() *gin.Engine {
 	{
 		userGroup.POST("/login", controller.UsersLogin)
 		userGroup.POST("/register", controller.UsersRegister)
+		userGroup.POST("/getinf", controller.UserGetInf)
+
 	}
 
 	// 商品相关路由

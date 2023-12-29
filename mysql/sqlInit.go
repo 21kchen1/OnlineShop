@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"fmt"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -19,7 +20,7 @@ var (
 
 func SqlInit() (err error) {
 	userName := "root"     // 账户
-	passWord := "mysqlpassword" // 密码
+	passWord := "030528"   // 密码
 	host := "127.0.0.1"    // 数据库地址
 	port := 3306           // 数据库端口
 	DBName := "onlineshop" // 数据库名

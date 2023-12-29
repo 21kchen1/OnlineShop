@@ -2,10 +2,11 @@ package controller
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"onlineshop/models"
 	"onlineshop/service"
+
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -90,4 +91,43 @@ func UsersLogin(c *gin.Context) {
 		"msg":       "UsersLogin 用户登录成功",
 		"userId":    user.ID,
 	})
+}
+
+func UserGetInf(c *gin.Context) {
+	fmt.Println("Go To UserGetInf")
+	var requestData struct {
+		UserId   int    `json:"userid"`
+		UserName string `json:"username" binding:"required"`
+		PassWord string `json:"password" binding:"required"`
+		PhoneNum string `json:"phoneNum"`
+		UserType int    `json:"userType"`
+		Email    string `json:"email" binding:"required"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"isSuccess": false,
+			"msg":       "获取参数失败",
+		})
+		return
+	}
+
+	// 获取商品
+	user, err := models.GetUserByID(requestData.UserId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "UserGetInf失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "获取用户成功",
+		"data":      user,
+	})
+
 }
