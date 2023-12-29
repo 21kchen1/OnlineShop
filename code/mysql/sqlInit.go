@@ -19,12 +19,12 @@ var (
 )
 
 func SqlInit() (err error) {
-	userName := "root"     // 账户
-	passWord := "20021219" // 密码
-	host := "127.0.0.1"    // 数据库地址
-	port := 3306           // 数据库端口
-	DBName := "onlineshop" // 数据库名
-	timeOut := "10s"       // 超时限制
+	userName := "ecommerce"        // 账户
+	passWord := "hbfejftWLDs8s3pM" // 密码
+	host := "45.153.131.189"       // 数据库地址
+	port := 3306                   // 数据库端口
+	DBName := "ecommerce"          // 数据库名
+	timeOut := "2s"                // 超时限制
 
 	// 拼接 dsm [username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local&timeout=%s", userName, passWord, host, port, DBName, timeOut)
