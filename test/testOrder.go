@@ -10,5 +10,22 @@ import "onlineshop/models"
  */
 
 var testOrderList = []models.Order {
-	
+	{
+		ProductID: 1,
+		TotalPrice: 2,
+	},
+	{
+		ProductID: 3,
+		TotalPrice: 4,
+	},
+}
+
+func AddOrder() {
+	for _, itme := range testOrderList {
+		models.CreateAOrder(&itme)
+	}
+}
+
+func Block() {
+
 }

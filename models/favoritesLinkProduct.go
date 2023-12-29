@@ -7,11 +7,10 @@ import (
 
 /**
  * @File : favoritesLinkProduct.go
- * @Description : 收藏-商品
+ * @Description : 收藏-商品关系
  * @Author : chen
  * @Date : 2023/12/26
  */
-
 type FavoritesLinkProduct struct {
 	gorm.Model
 	FavoritesID int `json:"favoritesId" gorm:"foreignKey:FavoritesID"`

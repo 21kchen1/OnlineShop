@@ -23,7 +23,7 @@ func GetOrderList() (orderList []map[string]interface{}, err error) {
 	// 构造返回数据
 	for _, order := range orders {
 		orderData := map[string]interface{}{
-			"OrderID":        order.OrderID,
+			"OrderID":        order.ID,
 			"ProductID":      order.ProductID,
 			"OrderStatus":    order.OrderStatus,
 			"TotalPrice":     order.TotalPrice,
