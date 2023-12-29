@@ -72,7 +72,7 @@ func AddProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"isSuccess": false,
-			"msg":       "添加商品失败",
+			"msg":       "添加商品失败" + " :" + err.Error(),
 		})
 		return
 	}
@@ -109,7 +109,7 @@ func GetProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"isSuccess": false,
-			"msg":       "获取商品失败",
+			"msg":       "获取商品失败" + " :" + err.Error(),
 		})
 		return
 	}
@@ -147,7 +147,7 @@ func DeleteProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"isSuccess": false,
-			"msg":       "删除商品失败",
+			"msg":       "删除商品失败" + " :" + err.Error(),
 		})
 		return
 	}
@@ -187,7 +187,7 @@ func EditProduct(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"isSuccess": false,
-			"msg":       "修改商品信息失败",
+			"msg":       "修改商品信息失败" + " :" + err.Error(),
 		})
 		return
 	}
@@ -223,7 +223,7 @@ func GetProductNum(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"isSuccess": false,
-			"msg":       "获取商品数量失败",
+			"msg":       "获取商品数量失败" + " :" + err.Error(),
 		})
 		return
 	}
@@ -261,7 +261,7 @@ func EditProductNum(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"isSuccess": false,
-			"msg":       "修改商品数量失败",
+			"msg":       "修改商品数量失败" + " :" + err.Error(),
 		})
 		return
 	}
