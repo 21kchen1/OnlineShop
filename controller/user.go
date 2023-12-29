@@ -93,19 +93,14 @@ func UsersLogin(c *gin.Context) {
 	})
 }
 
+// UserGetInf功能实现
 func UserGetInf(c *gin.Context) {
-	fmt.Println("Go To UserGetInf")
 	var requestData struct {
-		UserId   int    `json:"userid"`
-		UserName string `json:"username" binding:"required"`
-		PassWord string `json:"password" binding:"required"`
-		PhoneNum string `json:"phoneNum"`
-		UserType int    `json:"userType"`
-		Email    string `json:"email" binding:"required"`
+		UserId int `json:"userid"`
 	}
 
-	// 获取请求参数
-	if err := c.ShouldBindJSON(&requestData); err != nil {
+	// 自动获取数据
+	if err := c.ShouldBind(&requestData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"isSuccess": false,
 			"msg":       "获取参数失败",
@@ -113,8 +108,8 @@ func UserGetInf(c *gin.Context) {
 		return
 	}
 
-	// 获取商品
-	user, err := models.GetUserByID(requestData.UserId)
+	// 获取用户
+	user, err := service.UserGetInf(requestData.UserId)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

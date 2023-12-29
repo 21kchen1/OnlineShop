@@ -61,5 +61,20 @@ func SetupRouters() *gin.Engine {
 		favoritesGroup.POST("/deleteProduct", controller.DeleteFavoProduct)
 	}
 	// test
+
+	// 订单相关路由
+	orderGroup := r.Group("/order")
+	{
+		orderGroup.POST("/orderList", controller.GetOrderList)
+		orderGroup.POST("/deleteOrder", controller.DeleteOrder)
+	}
+
+	// 日志相关路由
+	logGroup := r.Group("/log")
+	{
+		logGroup.POST("/getInf", controller.GetOrderList)
+		logGroup.POST("/addLog", controller.AddLog)
+		logGroup.POST("/delLog", controller.DeleteLog)
+	}
 	return r
 }
