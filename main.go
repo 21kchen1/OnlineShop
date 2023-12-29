@@ -24,7 +24,7 @@ func main() {
 	r := routers.SetupRouters()
 	//连接接口
 	//打开cmd,输入ipconfig,找到ipv4地址
-	err = r.Run("192.168.1.101:8080")
+	err = r.Run("localhost:8080")
 	if err != nil {
 		fmt.Println("Gin Err ", err)
 	}
