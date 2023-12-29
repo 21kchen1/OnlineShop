@@ -2,7 +2,6 @@ package models
 
 import (
 	mysql "onlineshop/mysql"
-
 	"github.com/jinzhu/gorm"
 )
 
