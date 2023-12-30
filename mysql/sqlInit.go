@@ -19,7 +19,7 @@ var (
 
 func SqlInit() (err error) {
 	userName := "root"     // 账户
-	passWord := "20021219" // 密码
+	passWord := "password" // 密码
 	host := "127.0.0.1"    // 数据库地址
 	port := 3306           // 数据库端口
 	DBName := "onlineshop" // 数据库名
