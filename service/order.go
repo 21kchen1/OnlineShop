@@ -39,3 +39,24 @@ func GetOrderList() (orderList []map[string]interface{}, err error) {
 
 	return orderList, nil
 }
+
+// EditOrder 修改订单信息服务函数
+func EditOrder(orderID, orderNumber, deliveryStatus int) error {
+	// 获取订单对象
+	order, err := models.GetOrderByID(orderID)
+	if err != nil {
+		return fmt.Errorf("获取订单失败：%w", err)
+	}
+
+	// 更新订单信息
+	order.OrderID = orderNumber
+	order.OrderStatus = deliveryStatus
+
+	// 调用数据库模型的方法保存更新后的订单信息
+	err = models.UpdateAOrder(&order)
+	if err != nil {
+		return fmt.Errorf("修改订单信息失败：%w", err)
+	}
+
+	return nil
+}

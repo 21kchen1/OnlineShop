@@ -67,6 +67,7 @@ func SetupRouters() *gin.Engine {
 	{
 		orderGroup.POST("/orderList", controller.GetOrderList)
 		orderGroup.POST("/deleteOrder", controller.DeleteOrder)
+		orderGroup.POST("/editOrder", controller.EditOrder)
 	}
 
 	// 日志相关路由
@@ -75,6 +76,7 @@ func SetupRouters() *gin.Engine {
 		logGroup.POST("/getInf", controller.GetOrderList)
 		logGroup.POST("/addLog", controller.AddLog)
 		logGroup.POST("/delLog", controller.DeleteLog)
+		logGroup.POST("/editLog", controller.EditLog)
 	}
 	return r
 }

@@ -60,3 +60,32 @@ func DeleteOrder(c *gin.Context) {
 		"msg":       "删除订单成功",
 	})
 }
+
+// EditOrder 修改订单信息接口
+func EditOrder(c *gin.Context) {
+	var requestData struct {
+		OrderID      int    `json:"orderId"`
+		OrderNumber  int    `json:"orderNumber"`
+		OrderAddress string `json:"orderAddress"`
+		OrderStatus  int    `json:"deliveryStatus"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		util.ErrRespon(c, err, "获取参数失败")
+		return
+	}
+
+	// 调用 service 修改订单信息
+	err := service.EditOrder(requestData.OrderID, requestData.OrderNumber, requestData.OrderStatus)
+	if err != nil {
+		util.ErrRespon(c, err, "修改订单信息失败")
+		return
+	}
+
+	// 返回成功信息
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "修改订单信息成功",
+	})
+}
