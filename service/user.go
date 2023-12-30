@@ -61,19 +61,3 @@ func CheckUserLogin(loginData *models.User) (err error) {
 	// 验证通过，返回 nil
 	return nil
 }
-
-func UserGetInf(userId int) (user map[string]interface{}, err error) {
-	theUser, err := models.GetUserByID(userId)
-
-	if err != nil {
-		return nil, err
-	}
-
-	user = map[string]interface{}{
-		"username": theUser.ID,
-		"email":    theUser.Email,
-		"phonenum": theUser.PhoneNum,
-	}
-
-	return
-}
