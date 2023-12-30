@@ -1,13 +1,14 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
 	mysql "onlineshop/mysql"
+
+	"github.com/jinzhu/gorm"
 )
 
 /**
  * @File : store.go
- * @Description : 订单模型 与其增删查改
+ * @Description : 商铺模型 与其增删查改
  * @Author : chen
  * @Date : 2023/11/15
  */
@@ -63,4 +64,10 @@ func DeleteStoreByID(id int) (err error) {
 	err = mysql.DB.Where("id = ?", id).Delete(Store{}).Error
 
 	return err
+}
+
+// GetStoreByUserID 根据用户ID获取商铺信息
+func GetStoreByUserID(userID int) (store Store, err error) {
+	err = mysql.DB.Where("user_id = ?", userID).First(&store).Error
+	return store, err
 }

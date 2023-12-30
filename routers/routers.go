@@ -1,9 +1,8 @@
 package routers
 
 import (
-	"onlineshop/controller"
-
 	"github.com/gin-gonic/gin"
+	"onlineshop/controller"
 )
 
 /**
@@ -12,16 +11,39 @@ import (
  * @Author : chen
  * @Date : 2023/12/03
  */
+
 func SetupRouters() *gin.Engine {
 	r := gin.Default()
 
 	// 用户相关路由
 	userGroup := r.Group("/user")
 	{
+		//用户登录
 		userGroup.POST("/login", controller.UsersLogin)
+		//用户注册
 		userGroup.POST("/register", controller.UsersRegister)
-		userGroup.POST("/getinf", controller.UserGetInf)
+		//管理员更新用户信息
+		userGroup.POST("/update", controller.UpdateUserInfo)
+		//管理员新增用户
+		userGroup.POST("/addUser", controller.AddUser)
+		//管理员删除用户
+		userGroup.POST("/delete", controller.DeleteUser)
+		//管理员获取用户列表
+		userGroup.GET("/getList", controller.GetUserList)
 
+	}
+
+	//商家管理路由
+	sellerGroup := r.Group("/seller")
+	{
+		//获取商家列表
+		sellerGroup.GET("/getList", controller.GetSellerList)
+		//增加商家
+		sellerGroup.POST("/addSeller", controller.AddSeller)
+		//删除商家
+		sellerGroup.POST("/delete", controller.DeleteSeller)
+		//修改商家信息
+		sellerGroup.POST("/updata", controller.UpdateSellerInfo)
 	}
 
 	// 商品相关路由
@@ -40,6 +62,8 @@ func SetupRouters() *gin.Engine {
 		productGroup.POST("/getQuantity", controller.GetProductNum)
 		// 根据商品id修改库存数量
 		productGroup.POST("/editQuantity", controller.EditProductNum)
+		// 根据商品id查询其所有评论
+		productGroup.POST("/getComment", controller.GetCommentsByProductID)
 	}
 
 	// 收藏夹列表
@@ -60,23 +84,14 @@ func SetupRouters() *gin.Engine {
 		// 删除收藏夹物品
 		favoritesGroup.POST("/deleteProduct", controller.DeleteFavoProduct)
 	}
-	// test
 
-	// 订单相关路由
-	orderGroup := r.Group("/order")
+	// 评论相关路由
+	commentGroup := r.Group("/comment")
 	{
-		orderGroup.POST("/orderList", controller.GetOrderList)
-		orderGroup.POST("/deleteOrder", controller.DeleteOrder)
-		orderGroup.POST("/editOrder", controller.EditOrder)
+		// 用户发表评论
+		commentGroup.POST("/add", controller.AddComment)
+		// 用户回复评论
+		commentGroup.POST("/reply", controller.AddReply)
 	}
-
-	// 日志相关路由
-	logGroup := r.Group("/log")
-	{
-		logGroup.POST("/getInf", controller.GetOrderList)
-		logGroup.POST("/addLog", controller.AddLog)
-		logGroup.POST("/delLog", controller.DeleteLog)
-		logGroup.POST("/editLog", controller.EditLog)
-	} //test
 	return r
 }

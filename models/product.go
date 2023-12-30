@@ -2,8 +2,9 @@ package models
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
 	mysql "onlineshop/mysql"
+
+	"github.com/jinzhu/gorm"
 )
 
 /**
@@ -94,4 +95,10 @@ func GetProductList(searchKey, productType string) (products []*Product, err err
 	}
 
 	return products, nil
+}
+
+// GetProductsByStoreID 根据商铺ID获取商品信息列表
+func GetProductsByStoreID(storeID int) (products []*Product, err error) {
+	err = mysql.DB.Where("store_id = ?", storeID).Find(&products).Error
+	return products, err
 }
