@@ -1,10 +1,11 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"onlineshop/models"
 	"onlineshop/service"
+	"onlineshop/util"
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -27,28 +28,22 @@ func GetFavoritesList(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
 	// 获取收藏夹列表
-	favIdList, err := service.GetFavoritesList(requestData.UserId)
+	favList, err := service.GetFavoritesList(requestData.UserId)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "获取收藏列表失败",
-		})
+		util.ErrRespon(c, err, "获取收藏夹列表失败")
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "获取收藏列表成功",
-		"data":      favIdList,
+		"data":      favList,
 	})
 }
 
@@ -63,10 +58,7 @@ func AddFavorites(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
@@ -74,10 +66,7 @@ func AddFavorites(c *gin.Context) {
 	err := service.AddFavorites(requestData)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "添加收藏夹失败",
-		})
+		util.ErrRespon(c, err, "添加收藏夹失败")
 		return
 	}
 
@@ -100,10 +89,7 @@ func DeleteFavorites(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
@@ -111,10 +97,7 @@ func DeleteFavorites(c *gin.Context) {
 	err := service.DeleteFavorites(requestData.FavoritesId)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "删除收藏夹失败",
-		})
+		util.ErrRespon(c, err, "删除收藏夹失败")
 		return
 	}
 
@@ -138,10 +121,7 @@ func UpdataFavoName(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
@@ -149,10 +129,7 @@ func UpdataFavoName(c *gin.Context) {
 	err := service.UpdataFavoName(requestData.FavoritesId, requestData.FavoritesName)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "更新收藏夹名称失败",
-		})
+		util.ErrRespon(c, err, "更新收藏夹名称失败")
 		return
 	}
 
@@ -175,10 +152,7 @@ func GetFavoProductList(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
@@ -186,10 +160,7 @@ func GetFavoProductList(c *gin.Context) {
 	favProductIdList, err := service.GetFavoProductList(requestData.FavoritesId)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "获取收藏夹商品id列表失败",
-		})
+		util.ErrRespon(c, err, "获取收藏夹商品id列表失败")
 		return
 	}
 
@@ -211,10 +182,7 @@ func AddFavoProduct(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
@@ -222,10 +190,7 @@ func AddFavoProduct(c *gin.Context) {
 	err := service.AddFavoProduct(requestData)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "添加收藏夹商品失败",
-		})
+		util.ErrRespon(c, err, "添加收藏夹商品失败")
 		return
 	}
 
@@ -246,10 +211,7 @@ func DeleteFavoProduct(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
@@ -257,10 +219,7 @@ func DeleteFavoProduct(c *gin.Context) {
 	err := service.DeleteFavoProduct(requestData)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "删除收藏夹商品失败",
-		})
+		util.ErrRespon(c, err, "删除收藏夹商品失败")
 		return
 	}
 
