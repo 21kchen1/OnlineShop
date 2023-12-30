@@ -5,6 +5,7 @@ import (
 	"onlineshop/models"
 	"onlineshop/mysql"
 	"onlineshop/routers"
+	"onlineshop/test"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	defer mysql.DB.Close()
 
 	// 输入测试数据
-	// test.AddFPList()
+	test.Block()
 
 	r := routers.SetupRouters()
 	//连接接口
