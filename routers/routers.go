@@ -78,5 +78,12 @@ func SetupRouters() *gin.Engine {
 		logGroup.POST("/delLog", controller.DeleteLog)
 		logGroup.POST("/editLog", controller.EditLog)
 	} //test
+
+	// 商铺相关路由
+	storeGroup := r.Group("/store")
+	{
+		storeGroup.POST("/getStoreInfo", controller.GetStoreID)
+		storeGroup.POST("/getProductsByStoreId", controller.GetProductsByStoreID)
+	}
 	return r
 }
