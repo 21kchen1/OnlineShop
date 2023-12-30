@@ -77,6 +77,6 @@ func SetupRouters() *gin.Engine {
 		logGroup.POST("/addLog", controller.AddLog)
 		logGroup.POST("/delLog", controller.DeleteLog)
 		logGroup.POST("/editLog", controller.EditLog)
-	}
+	} //test
 	return r
 }
