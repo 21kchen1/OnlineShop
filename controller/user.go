@@ -1,4 +1,3 @@
-
 package controller
 
 import (
@@ -8,8 +7,6 @@ import (
 	"net/http"
 	"onlineshop/models"
 	"onlineshop/service"
-
-	"github.com/gin-gonic/gin"
 )
 
 /**
