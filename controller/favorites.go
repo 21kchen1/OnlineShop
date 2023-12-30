@@ -1,6 +1,5 @@
 package controller
 
-
 import (
 	"net/http"
 	"onlineshop/models"
