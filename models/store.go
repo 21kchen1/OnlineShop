@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
 	mysql "onlineshop/mysql"
+
+	"github.com/jinzhu/gorm"
 )
 
 /**
@@ -63,4 +64,10 @@ func DeleteStoreByID(id int) (err error) {
 	err = mysql.DB.Where("id = ?", id).Delete(Store{}).Error
 
 	return err
+}
+
+// GetStoreByUserID 根据用户ID获取商铺信息
+func GetStoreByUserID(userID int) (store Store, err error) {
+	err = mysql.DB.Where("user_id = ?", userID).First(&store).Error
+	return store, err
 }
