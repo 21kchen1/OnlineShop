@@ -125,5 +125,13 @@ func SetupRouters() *gin.Engine {
 		storeGroup.POST("/getStoreInfo", controller.GetStoreID)
 		storeGroup.POST("/getProductsByStoreId", controller.GetProductsByStoreID)
 	}
+
+	//购物车相关路由
+	shopping_cartGroup := r.Group("/shoppingCart")
+	{
+		shopping_cartGroup.POST("/shopId", controller.GetShopIDByShopName)
+		shopping_cartGroup.POST("/productId", controller.GetProductIDByProductName)
+	}
+
 	return r
 }

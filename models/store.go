@@ -71,3 +71,15 @@ func GetStoreByUserID(userID int) (store Store, err error) {
 	err = mysql.DB.Where("user_id = ?", userID).First(&store).Error
 	return store, err
 }
+
+// GetShopIDByShopName 根据商铺名称获取商铺ID
+func GetShopIDByShopName(shopName string) (int, error) {
+	var shop Store
+
+	err := mysql.DB.Where("store_name = ?", shopName).First(&shop).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return int(shop.ID), nil
+}

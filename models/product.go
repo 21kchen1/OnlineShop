@@ -102,3 +102,15 @@ func GetProductsByStoreID(storeID int) (products []*Product, err error) {
 	err = mysql.DB.Where("store_id = ?", storeID).Find(&products).Error
 	return products, err
 }
+
+// GetProductIDByProductName 根据商品名称获取商品ID
+func GetProductIDByProductName(ProductName string) (int, error) {
+	var shop Product
+
+	err := mysql.DB.Where("product_name = ?", ProductName).First(&shop).Error
+	if err != nil {
+		return 0, err
+	}
+	return int(shop.ID), nil
+
+}
