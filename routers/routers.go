@@ -31,6 +31,7 @@ func SetupRouters() *gin.Engine {
 		userGroup.POST("/delete", controller.DeleteUser)
 		//管理员获取用户列表
 		userGroup.GET("/getList", controller.GetUserList)
+		userGroup.POST("/getInf", controller.GetUserInformation)
 
 	}
 

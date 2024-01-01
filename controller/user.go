@@ -2,11 +2,13 @@ package controller
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	"net/http"
 	"onlineshop/models"
 	"onlineshop/service"
+	"onlineshop/util"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 /**
@@ -501,5 +503,35 @@ func UpdateSellerInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "更新商家信息成功",
+	})
+}
+
+// GetUserInformation 获取用户信息
+func GetUserInformation(c *gin.Context) {
+	var requestData struct {
+		UserId int `json:"userId"`
+	}
+
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		util.ErrRespon(c, err, "获取参数失败")
+		return
+	}
+
+	// 调用 service 层函数获取用户信息
+	user, err := service.GetUserByID(requestData.UserId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "服务器错误",
+		})
+		return
+	}
+
+	// 返回结果
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess":   true,
+		"username":    user.UserName,
+		"email":       user.Email,
+		"phoneNumber": user.PhoneNum,
 	})
 }

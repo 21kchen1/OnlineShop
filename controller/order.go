@@ -89,3 +89,47 @@ func EditOrder(c *gin.Context) {
 		"msg":       "修改订单信息成功",
 	})
 }
+
+// 第14接口，已完成获取订单model，商品信息未获取
+// GetUserOrderList 获取用户订单列表
+func GetUserOrderList(c *gin.Context) {
+	var requestData struct {
+		UserId int `json:"userId"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		util.ErrRespon(c, err, "获取参数失败")
+		return
+	}
+
+	// 调用 service 层函数获取用户订单列表
+	orders, err := service.GetUserOrders(requestData.UserId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"isSuccess": false,
+			"msg":       "服务器错误",
+		})
+		return
+	}
+
+	// 构造返回参数
+	var responseData []gin.H
+	for _, order := range orders {
+		orderData := gin.H{
+			"productId":      order.ProductID,
+			"productName":    order.ProductID,
+			"orderNumber":    order.ProductID,
+			"price":          order.ProductID,
+			"deliveryStatus": order.OrderStatus,
+			"date":           order.ProductID,
+		}
+		responseData = append(responseData, orderData)
+	}
+
+	// 返回结果
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"data":      responseData,
+	})
+}
