@@ -96,7 +96,9 @@ func SetupRouters() *gin.Engine {
 		commentGroup.POST("/add", controller.AddComment)
 		// 用户回复评论
 		commentGroup.POST("/reply", controller.AddReply)
-		commentGroup.POST("/comment/delete", controller.DeleteComment)
+		commentGroup.POST("/delete", controller.DeleteComment)
+		// 获取所有评论
+		commentGroup.POST("/all", controller.GetAllComment)
 	}
 	// test
 

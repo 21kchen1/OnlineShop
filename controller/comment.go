@@ -149,3 +149,13 @@ func DeleteComment(c *gin.Context) {
 		"msg":       "删除评论成功",
 	})
 }
+
+/**
+ * @File : comment.go
+ * @Description : 获取所有评论
+ * @Author : chen
+ * @Date : 2024-1-1
+ */
+func GetAllComment(c *gin.Context)  {
+	
+}
