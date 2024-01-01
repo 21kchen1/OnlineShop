@@ -1,8 +1,9 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"onlineshop/controller"
+
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -64,6 +65,9 @@ func SetupRouters() *gin.Engine {
 		productGroup.POST("/editQuantity", controller.EditProductNum)
 		// 根据商品id查询其所有评论
 		productGroup.POST("/getComment", controller.GetCommentsByProductID)
+		// 获取主页推荐商品的路由
+		productGroup.POST("/recommend", controller.GetRecommendedProducts)
+
 	}
 
 	// 收藏夹列表
@@ -92,6 +96,42 @@ func SetupRouters() *gin.Engine {
 		commentGroup.POST("/add", controller.AddComment)
 		// 用户回复评论
 		commentGroup.POST("/reply", controller.AddReply)
+		commentGroup.POST("/comment/delete", controller.DeleteComment)
 	}
+	// test
+
+	// 订单相关路由
+	orderGroup := r.Group("/order")
+	{
+		orderGroup.POST("/orderList", controller.GetOrderList)
+		orderGroup.POST("/deleteOrder", controller.DeleteOrder)
+		orderGroup.POST("/editOrder", controller.EditOrder)
+	}
+
+	// 日志相关路由
+	logGroup := r.Group("/log")
+	{
+		/*废除
+		logGroup.POST("/getInf", controller.GetOrderList)*/
+		logGroup.POST("/addLog", controller.AddLog)
+		logGroup.POST("/delLog", controller.DeleteLog)
+		logGroup.POST("/editLog", controller.EditLog)
+		logGroup.POST("/getInf", controller.GetLogList)
+	} //test
+
+	// 商铺相关路由
+	storeGroup := r.Group("/store")
+	{
+		storeGroup.POST("/getStoreInfo", controller.GetStoreID)
+		storeGroup.POST("/getProductsByStoreId", controller.GetProductsByStoreID)
+	}
+
+	//购物车相关路由
+	shopping_cartGroup := r.Group("/shoppingCart")
+	{
+		shopping_cartGroup.POST("/shopId", controller.GetShopIDByShopName)
+		shopping_cartGroup.POST("/productId", controller.GetProductIDByProductName)
+	}
+
 	return r
 }

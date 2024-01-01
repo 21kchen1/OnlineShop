@@ -10,6 +10,8 @@ package controller
 import (
 	"net/http"
 	"onlineshop/models"
+	"onlineshop/service"
+	"onlineshop/util"
 
 	"github.com/gin-gonic/gin"
 )
@@ -119,4 +121,31 @@ func AddReply(c *gin.Context) {
 	} else {
 		c.JSON(http.StatusOK, gin.H{"isSuccess": true, "msg": "Reply added successfully"})
 	}
+}
+
+// DeleteComment 删除评论
+func DeleteComment(c *gin.Context) {
+	var requestData struct {
+		CommentID int `json:"commentId"`
+	}
+
+	// 获取请求参数
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		util.ErrRespon(c, err, "获取参数失败")
+		return
+	}
+
+	// 调用 service 层删除评论的函数
+	err := service.DeleteComment(requestData.CommentID)
+
+	if err != nil {
+		util.ErrRespon(c, err, "删除评论失败")
+		return
+	}
+
+	// 返回成功的响应
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "删除评论成功",
+	})
 }

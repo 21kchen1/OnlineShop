@@ -9,8 +9,10 @@ package service
 
 import (
 	"errors"
+	"math/rand"
 	"onlineshop/models"
 	"reflect"
+	"time"
 )
 
 // GetProductList 获取商品列表服务函数
@@ -156,4 +158,39 @@ func EditProductNum(productId int, editQuantity int) (err error) {
 	err = models.UpdateAProduct(&theProduct)
 
 	return
+}
+
+// GetRecommendedProducts 获取主页推荐商品服务函数
+func GetRecommendedProducts() ([]map[string]interface{}, error) {
+	// 调用数据库模型的方法获取所有商品
+	allProducts, err := models.GetAllProduct()
+	if err != nil {
+		return nil, err
+	}
+
+	// 如果商品数量小于等于12，直接返回所有商品
+	if len(allProducts) <= 12 {
+		return allProductsToData(allProducts), nil
+	}
+
+	// 随机获取12个商品
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(allProducts), func(i, j int) {
+		allProducts[i], allProducts[j] = allProducts[j], allProducts[i]
+	})
+
+	return allProductsToData(allProducts[:12]), nil
+}
+
+// 将商品切片转为前端需要的数据格式
+func allProductsToData(products []*models.Product) []map[string]interface{} {
+	var productList []map[string]interface{}
+	for _, product := range products {
+		productData := map[string]interface{}{
+			"productId": product.ID,
+			// 添加其他需要返回的商品信息字段
+		}
+		productList = append(productList, productData)
+	}
+	return productList
 }
