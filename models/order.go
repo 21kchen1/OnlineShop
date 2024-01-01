@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
 	mysql "onlineshop/mysql"
+
+	"github.com/jinzhu/gorm"
 )
 
 /**
@@ -66,4 +67,21 @@ func DeleteOrderByID(id int) (err error) {
 	err = mysql.DB.Where("id = ?", id).Delete(Order{}).Error
 
 	return err
+}
+
+// GetOrderList 获取订单列表服务函数
+func GetOrderList() (orders []*Order, err error) {
+	// 查询数据库获取订单列表
+	err = mysql.DB.Find(&orders).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return orders, nil
+}
+
+// GetUserOrders 获取用户订单列表
+func GetUserOrders(userID int) (orders []*Order, err error) {
+	err = mysql.DB.Where("user_id = ?", userID).Find(&orders).Error
+	return orders, err
 }

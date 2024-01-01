@@ -8,11 +8,13 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"onlineshop/models"
 	"onlineshop/service"
+	"onlineshop/util"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 // GetProductList 获取商品列表接口
@@ -24,20 +26,14 @@ func GetProductList(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
 	// 调用服务函数获取商品列表
 	productList, err := service.GetProductList(requestData.SearchKey, strconv.Itoa(requestData.ProductType))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "获取商品列表失败",
-		})
+		util.ErrRespon(c, err, "获取商品列表失败")
 		return
 	}
 
@@ -60,20 +56,14 @@ func AddProduct(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
 	err := service.AddProduct(&requestData)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "添加商品失败",
-		})
+		util.ErrRespon(c, err, "添加商品失败")
 		return
 	}
 
@@ -96,10 +86,7 @@ func GetProduct(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
@@ -107,10 +94,7 @@ func GetProduct(c *gin.Context) {
 	product, err := service.GetProduct(requestData.ProductId)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "获取商品失败",
-		})
+		util.ErrRespon(c, err, "获取商品失败")
 		return
 	}
 
@@ -135,20 +119,14 @@ func DeleteProduct(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
 	err := service.DeleteProduct(requestData.ProductId)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "删除商品失败",
-		})
+		util.ErrRespon(c, err, "删除商品失败")
 		return
 	}
 
@@ -172,23 +150,18 @@ func EditProduct(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
 	var theProduct models.Product
-	{}
+	{
+	}
 	theProduct = requestData.Product
-	err := service.EditProduct(requestData.ProductId ,theProduct)
+	err := service.EditProduct(requestData.ProductId, theProduct)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "修改商品信息失败",
-		})
+		util.ErrRespon(c, err, "修改商品信息失败")
 		return
 	}
 
@@ -211,20 +184,14 @@ func GetProductNum(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
 	stock, err := service.GetProductNum(requestData.ProductId)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "获取商品数量失败",
-		})
+		util.ErrRespon(c, err, "获取商品数量失败")
 		return
 	}
 
@@ -249,25 +216,37 @@ func EditProductNum(c *gin.Context) {
 
 	// 获取请求参数
 	if err := c.ShouldBindJSON(&requestData); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"isSuccess": false,
-			"msg":       "获取参数失败",
-		})
+		util.ErrRespon(c, err, "获取参数失败")
 		return
 	}
 
 	err := service.EditProductNum(requestData.ProductId, requestData.EditQuantity)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"isSuccess": false,
-			"msg":       "修改商品数量失败",
-		})
+		util.ErrRespon(c, err, "修改商品数量失败")
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "修改商品数量成功",
+	})
+}
+
+// GetRecommendedProducts 获取主页推荐商品
+func GetRecommendedProducts(c *gin.Context) {
+	// 调用 service 层获取推荐商品的函数
+	recommendedProducts, err := service.GetRecommendedProducts()
+
+	if err != nil {
+		util.ErrRespon(c, err, "获取推荐商品失败")
+		return
+	}
+
+	// 返回推荐商品列表
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "获取推荐商品成功",
+		"data":      recommendedProducts,
 	})
 }

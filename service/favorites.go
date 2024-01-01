@@ -20,7 +20,7 @@ import (
  * @Author : chen
  * @Date : 2023/12/27
  */
-func GetFavoritesList(userId int) (favIdList []int, err error) {
+func GetFavoritesList(userId int) (refavList []map[string]interface{}, err error) {
 	favList, err := models.GetFavoListByUserId(userId)
 
 	if err != nil {
@@ -28,8 +28,13 @@ func GetFavoritesList(userId int) (favIdList []int, err error) {
 	}
 
 	// 构造
-	for i := range favList {
-		favIdList = append(favIdList, int(favList[i].ID))
+	for _, fav := range favList {
+		item := map[string]interface{} {
+			"id": fav.ID,
+			"name": fav.FavoritesName,
+			"num": fav.Count,
+		}
+		refavList = append(refavList, item)
 	}
 
 	return
@@ -122,7 +127,7 @@ func AddFavoProduct(favoLinkProduct models.FavoritesLinkProduct) (err error) {
 	}
 
 	// 检测是否存在收藏夹
-	_, err = models.GetFavoritesByID(favoLinkProduct.FavoritesID)
+	theFavorites, err := models.GetFavoritesByID(favoLinkProduct.FavoritesID)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return
 	}
@@ -147,13 +152,20 @@ func AddFavoProduct(favoLinkProduct models.FavoritesLinkProduct) (err error) {
 	}
 
 	err = models.AddProductToFavorites(&favoLinkProduct)
+	if err != nil {
+		return
+	}
+	// 收藏夹收藏数量更新
+	theFavorites.Count = theFavorites.Count + 1
+	// 保存收藏夹
+	err = models.UpdateAFavorites(&theFavorites)
 
 	return
 }
 
 /**
  * @File : favorites.go
- * @Description : 添加收藏夹商品
+ * @Description : 删除收藏夹商品
  * @Author : chen
  * @Date : 2023/12/27
  */
@@ -162,7 +174,38 @@ func DeleteFavoProduct(favoLinkProduct models.FavoritesLinkProduct) (err error) 
 		err = errors.New("收藏夹物品信息缺失")
 		return
 	}
+
+	// 检测是否存在收藏夹
+	theFavorites, err := models.GetFavoritesByID(favoLinkProduct.FavoritesID)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return
+	}
+	// 检测收藏夹是否存在商品
+	favProductIdList, err := GetFavoProductList(favoLinkProduct.FavoritesID)
+	if err != nil {
+		return
+	}
+
+	for i := range favProductIdList {
+		if favProductIdList[i] == favoLinkProduct.ProductID {
+			break
+		}
+		if i != len(favProductIdList) - 1 {
+			continue
+		}
+		// 到最后一个也没有找到
+		err = errors.New("收藏夹不存在物品")
+		return
+	}
+
 	err = models.DeleteFavoritesLinkProductByFIdAndPId(favoLinkProduct.FavoritesID, favoLinkProduct.ProductID)
+	if err != nil {
+		return
+	}
+	// 收藏夹收藏数量更新
+	theFavorites.Count = theFavorites.Count - 1
+	// 保存收藏夹
+	err = models.UpdateAFavorites(&theFavorites)
 
 	return err
 }
