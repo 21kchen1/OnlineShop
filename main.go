@@ -21,7 +21,7 @@ func main() {
 	defer mysql.DB.Close()
 
 	// 输入测试数据
-	// test.AddFPList()
+	// test.AddComment()
 
 	r := routers.SetupRouters()
 	//连接接口

@@ -21,6 +21,10 @@ func DeleteComment(commentID int) error {
  * @Author : chen
  * @Date : 2024-1-1
  */
-func GetAllComment() (commentList []models.Comment, err error) {
+func GetAllComment() (commentList []*models.Comment, err error) {
+	commentList, err = models.GetAllComment()
+	if err != nil {
+		return
+	}
 	return
 }
