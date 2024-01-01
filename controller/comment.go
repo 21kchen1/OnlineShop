@@ -8,12 +8,11 @@
 package controller
 
 import (
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"onlineshop/models"
 	"onlineshop/service"
 	"onlineshop/util"
-
-	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -147,5 +146,26 @@ func DeleteComment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "删除评论成功",
+	})
+}
+
+/**
+ * @File : comment.go
+ * @Description : 获取所有评论
+ * @Author : chen
+ * @Date : 2024-1-1
+ */
+func GetAllComment(c *gin.Context) {
+	commentList, err := service.GetAllComment()
+
+	if err != nil {
+		util.ErrRespon(c, err, "获取所有评论失败")
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "获取所有评论成功",
+		"data":      commentList,
 	})
 }

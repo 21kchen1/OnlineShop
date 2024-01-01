@@ -14,3 +14,17 @@ func DeleteComment(commentID int) error {
 
 	return nil
 }
+
+/**
+ * @File : comment.go
+ * @Description : 获取所有评论
+ * @Author : chen
+ * @Date : 2024-1-1
+ */
+func GetAllComment() (commentList []*models.Comment, err error) {
+	commentList, err = models.GetAllComment()
+	if err != nil {
+		return
+	}
+	return
+}
