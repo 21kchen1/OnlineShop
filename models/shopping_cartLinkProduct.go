@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	mysql "onlineshop/mysql"
 
 	"github.com/jinzhu/gorm"
@@ -44,4 +45,35 @@ func DeleteShoppingCartLinkProductByCartIDAndProductID(shoppingCartID int, produ
 	err = query.Delete(ShoppingCartLinkProduct{}).Error
 
 	return err
+}
+
+// CheckShoppingCartProductLinkExists 检查 shopping_cart_id - product_id 是否存在
+func CheckShoppingCartProductLinkExists(shoppingCartID, productID int) (bool, error) {
+	var link ShoppingCartLinkProduct
+
+	err := mysql.DB.Where("shopping_cart_id = ? AND product_id = ?", shoppingCartID, productID).First(&link).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, nil
+		}
+		return false, err
+	}
+
+	return true, nil
+}
+
+// UpdateShoppingCartProductQuantity 更新购物车商品项数量
+func UpdateShoppingCartProductQuantity(shoppingCartID, productID, quantity int) error {
+	var link ShoppingCartLinkProduct
+
+	err := mysql.DB.Where("shopping_cart_id = ? AND product_id = ?", shoppingCartID, productID).First(&link).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("购物车项不存在")
+		}
+		return err
+	}
+
+	link.Quantity = quantity
+	return mysql.DB.Save(&link).Error
 }

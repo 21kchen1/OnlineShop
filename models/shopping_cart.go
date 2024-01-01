@@ -8,6 +8,7 @@ package models
  */
 
 import (
+	"errors"
 	mysql "onlineshop/mysql"
 
 	"github.com/jinzhu/gorm"
@@ -16,6 +17,7 @@ import (
 type ShoppingCart struct {
 	gorm.Model
 	ShoppingCartName string `json:"ShoppingCartName"` // 购物车名称
+
 }
 
 // 创建 ShoppingCart
@@ -52,4 +54,24 @@ func UpdateShoppingCart(shoppingCart *ShoppingCart) (err error) {
 func DeleteShoppingCartByID(id int) (err error) {
 	err = mysql.DB.Where("id = ?", id).Delete(ShoppingCart{}).Error
 	return err
+}
+
+// GetShoppingCartLinkProductByUserIDShopIDProductID 根据用户ID、商铺ID和商品ID获取购物车商品项
+func GetShoppingCartLinkProductByUserIDShopIDProductID(userID, shopID, productID int) (*ShoppingCartLinkProduct, error) {
+	var cartItem ShoppingCartLinkProduct
+
+	err := mysql.DB.Where("user_id = ? AND shop_id = ? AND product_id = ?", userID, shopID, productID).First(&cartItem).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("购物车项不存在")
+		}
+		return nil, err
+	}
+
+	return &cartItem, nil
+}
+
+// UpdateShoppingCartLinkProduct 更新购物车商品项
+func UpdateShoppingCartLinkProduct(cartItem *ShoppingCartLinkProduct) error {
+	return mysql.DB.Save(cartItem).Error
 }

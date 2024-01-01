@@ -79,3 +79,9 @@ func GetOrderList() (orders []*Order, err error) {
 
 	return orders, nil
 }
+
+// GetUserOrders 获取用户订单列表
+func GetUserOrders(userID int) (orders []*Order, err error) {
+	err = mysql.DB.Where("user_id = ?", userID).Find(&orders).Error
+	return orders, err
+}

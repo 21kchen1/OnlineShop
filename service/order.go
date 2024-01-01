@@ -60,3 +60,8 @@ func EditOrder(orderID, orderNumber, deliveryStatus int) error {
 
 	return nil
 }
+
+// GetUserOrders 获取用户订单列表
+func GetUserOrders(userID int) ([]*models.Order, error) {
+	return models.GetUserOrders(userID)
+}
