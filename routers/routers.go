@@ -131,6 +131,8 @@ func SetupRouters() *gin.Engine {
 	{
 		shopping_cartGroup.POST("/shopId", controller.GetShopIDByShopName)
 		shopping_cartGroup.POST("/productId", controller.GetProductIDByProductName)
+		shopping_cartGroup.POST("/cart", controller.GetShoppingCart)
+		shopping_cartGroup.POST("/updataQuantity", controller.CheckUserShoppingCartLinkExistsAndUpadteQuantity)
 	}
 
 	return r
