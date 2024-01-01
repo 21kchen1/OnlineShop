@@ -61,3 +61,8 @@ func CheckUserLogin(loginData *models.User) (err error) {
 	// 验证通过，返回 nil
 	return nil
 }
+
+// GetUserByID 根据用户ID获取用户信息
+func GetUserByID(userID int) (models.User, error) {
+	return models.GetUserByID(userID)
+}

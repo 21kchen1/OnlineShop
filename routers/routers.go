@@ -31,6 +31,7 @@ func SetupRouters() *gin.Engine {
 		userGroup.POST("/delete", controller.DeleteUser)
 		//管理员获取用户列表
 		userGroup.GET("/getList", controller.GetUserList)
+		userGroup.POST("/getInf", controller.GetUserInformation)
 
 	}
 
@@ -133,6 +134,8 @@ func SetupRouters() *gin.Engine {
 	{
 		shopping_cartGroup.POST("/shopId", controller.GetShopIDByShopName)
 		shopping_cartGroup.POST("/productId", controller.GetProductIDByProductName)
+		shopping_cartGroup.POST("/cart", controller.GetShoppingCart)
+		shopping_cartGroup.POST("/updataQuantity", controller.CheckUserShoppingCartLinkExistsAndUpadteQuantity)
 	}
 
 	return r

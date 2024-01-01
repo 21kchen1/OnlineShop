@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	mysql "onlineshop/mysql"
 
 	"github.com/jinzhu/gorm"
@@ -42,4 +43,19 @@ func UpdateUserLinkShoppingcart(theUserLinkShoppingcart *UserLinkShoppingcart) (
 func DeleteUserLinkShoppingcart(userID int) (err error) {
 	err = mysql.DB.Where("user_id = ?", userID).Delete(UserLinkShoppingcart{}).Error
 	return err
+}
+
+// CheckUserShoppingCartLinkExists 检查 user_id - shopping_cart_id 是否存在
+func CheckUserShoppingCartLinkExists(userID, shoppingCartID int) (bool, error) {
+	var link UserLinkShoppingcart
+
+	err := mysql.DB.Where("user_id = ? AND shopping_cart_id = ?", userID, shoppingCartID).First(&link).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, nil
+		}
+		return false, err
+	}
+
+	return true, nil
 }

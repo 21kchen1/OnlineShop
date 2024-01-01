@@ -8,6 +8,7 @@ package service
  */
 
 import (
+	"errors"
 	"onlineshop/models"
 )
 
@@ -31,4 +32,45 @@ func GetProductIDByProductName(shopName string) (int, error) {
 	}
 
 	return shopID, nil
+}
+
+// GetShoppingCartDataByUserID 根据用户ID获取购物车数据
+func GetShoppingCartDataByUserID(userID int) (cartData []*models.ShoppingCartLinkProduct, err error) {
+	// 根据用户ID获取购物车信息
+	userLinkShoppingcart, err := models.GetUserLinkShoppingcartByUserID(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	// 根据购物车id获取购物车商品数据
+	cartData, err = models.GetShoppingCartLinkProductByShoppingCartID(userLinkShoppingcart.ShoppingCartID)
+	if err != nil {
+		return nil, err
+	}
+
+	return cartData, nil
+}
+
+// CheckUserShoppingCartLinkExists 检查 user_id - shopping_cart_id 是否存在
+func CheckUserShoppingCartLinkExists(userID, shoppingCartID int) (bool, error) {
+	return models.CheckUserShoppingCartLinkExists(userID, shoppingCartID)
+}
+
+// CheckShoppingCartProductLinkExists 检查 shopping_cart_id - product_id 是否存在
+func CheckShoppingCartProductLinkExists(shoppingCartID, productID int) (bool, error) {
+	return models.CheckShoppingCartProductLinkExists(shoppingCartID, productID)
+}
+
+// UpdateShoppingCartProductQuantity 更新购物车商品项数量
+func UpdateShoppingCartProductQuantity(shoppingCartID, productID, quantity int) error {
+	exists, err := models.CheckShoppingCartProductLinkExists(shoppingCartID, productID)
+	if err != nil {
+		return err
+	}
+
+	if !exists {
+		return errors.New("购物车项不存在")
+	}
+
+	return models.UpdateShoppingCartProductQuantity(shoppingCartID, productID, quantity)
 }
