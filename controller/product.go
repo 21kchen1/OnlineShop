@@ -12,8 +12,6 @@ import (
 	"onlineshop/models"
 	"onlineshop/service"
 	"onlineshop/util"
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,7 +29,7 @@ func GetProductList(c *gin.Context) {
 	}
 
 	// 调用服务函数获取商品列表
-	productList, err := service.GetProductList(requestData.SearchKey, strconv.Itoa(requestData.ProductType))
+	productList, err := service.GetProductList(requestData.SearchKey, requestData.ProductType)
 	if err != nil {
 		util.ErrRespon(c, err, "获取商品列表失败")
 		return

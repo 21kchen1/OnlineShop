@@ -5,6 +5,7 @@ import (
 	"onlineshop/models"
 	"onlineshop/mysql"
 	"onlineshop/routers"
+	"onlineshop/test"
 )
 
 func main() {
@@ -21,12 +22,12 @@ func main() {
 	defer mysql.DB.Close()
 
 	// 输入测试数据
-	// test.AddComment()
+	test.TestAll()
 
 	r := routers.SetupRouters()
 	//连接接口
 	//打开cmd,输入ipconfig,找到ipv4地址
-	err = r.Run("localhost:8080")
+	err = r.Run("localhost:5050")
 	if err != nil {
 		fmt.Println("Gin Err ", err)
 	}

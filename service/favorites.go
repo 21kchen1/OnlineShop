@@ -99,7 +99,7 @@ func UpdataFavoName(favoritesId int, FavoritesName string) (err error) {
  * @Author : chen
  * @Date : 2023/12/27
  */
-func GetFavoProductList(favoritesId int) (favProductIdList []int, err error) {
+func GetFavoProductList(favoritesId int) (favProductIdList []map[string]interface{}, err error) {
 	itemList, err := models.GetFavoritesLinkProductByFavoritesId(favoritesId)
 
 	if err != nil {
@@ -108,7 +108,10 @@ func GetFavoProductList(favoritesId int) (favProductIdList []int, err error) {
 
 	// 生成 id 列表
 	for i := range itemList {
-		favProductIdList = append(favProductIdList, itemList[i].ProductID)
+		productId := map[string]interface{} {
+			"productId": itemList[i].ProductID,
+		}
+		favProductIdList = append(favProductIdList, productId)
 	}
 
 	return
@@ -144,7 +147,7 @@ func AddFavoProduct(favoLinkProduct models.FavoritesLinkProduct) (err error) {
 	}
 
 	for i := range favProductIdList {
-		if favProductIdList[i] != favoLinkProduct.ProductID {
+		if favProductIdList[i]["productId"] != favoLinkProduct.ProductID {
 			continue
 		}
 		err = errors.New("收藏夹物品重复")
@@ -187,7 +190,7 @@ func DeleteFavoProduct(favoLinkProduct models.FavoritesLinkProduct) (err error) 
 	}
 
 	for i := range favProductIdList {
-		if favProductIdList[i] == favoLinkProduct.ProductID {
+		if favProductIdList[i]["productId"] == favoLinkProduct.ProductID {
 			break
 		}
 		if i != len(favProductIdList) - 1 {

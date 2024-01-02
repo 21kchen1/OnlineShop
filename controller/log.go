@@ -36,7 +36,6 @@ func GetLogList(c *gin.Context) {
 // AddLog 添加日志接口
 func AddLog(c *gin.Context) {
 	var requestData struct {
-		UserID  int    `json:"userId"`
 		Title   string `json:"title"`
 		Content string `json:"content"`
 	}
@@ -48,7 +47,7 @@ func AddLog(c *gin.Context) {
 	}
 
 	// 调用 service 添加日志
-	err := service.AddLog(requestData.UserID, requestData.Title, requestData.Content)
+	err := service.AddLog(1, requestData.Title, requestData.Content)
 	if err != nil {
 		util.ErrRespon(c, err, "添加日志失败")
 		return

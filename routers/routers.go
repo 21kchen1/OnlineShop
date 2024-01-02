@@ -12,9 +12,24 @@ import (
  * @Author : chen
  * @Date : 2023/12/03
  */
+// 处理 CORS 的中间件
+func CORS() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+		c.Next()
+	}
+}
 
 func SetupRouters() *gin.Engine {
 	r := gin.Default()
+	r.Use(CORS())
 
 	// 用户相关路由
 	userGroup := r.Group("/user")
@@ -55,7 +70,7 @@ func SetupRouters() *gin.Engine {
 		// 添加商品
 		productGroup.POST("/addProduct", controller.AddProduct)
 		// 根据商品id获取单个商品具体信息
-		productGroup.POST("/getProduct", controller.GetProduct)
+		productGroup.POST("/getProductInfo", controller.GetProduct)
 		// 根据商品id删除商品
 		productGroup.POST("/deleteProduct", controller.DeleteProduct)
 		// 根据商品id修改商品信息
@@ -109,6 +124,7 @@ func SetupRouters() *gin.Engine {
 		orderGroup.POST("/orderList", controller.GetOrderList)
 		orderGroup.POST("/deleteOrder", controller.DeleteOrder)
 		orderGroup.POST("/editOrder", controller.EditOrder)
+		orderGroup.POST("/useGetList", controller.GetUserOrderList)
 	}
 
 	// 日志相关路由

@@ -11,19 +11,25 @@ import (
  * @Date : 2023/12/27
  */
 
-var testCommentList = []models.Comment {
+var testCommentList = []models.Comment{
 	{
-		UserID: 123,
+		UserID:    1,
+		ProductID: 1,
+		Content:   "好好好",
 	},
 	{
-		UserID: 1213,
+		UserID:    1,
+		ProductID: 1,
+		Content:   "真不错",
 	},
 	{
-		UserID: 1243,
+		UserID:    1,
+		ProductID: 1,
+		Content:   "挺合适",
 	},
 }
 
-func AddComment() {
+func addComment() {
 	for _, i := range testCommentList {
 		models.CreateAComment(&i)
 	}

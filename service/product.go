@@ -16,7 +16,7 @@ import (
 )
 
 // GetProductList 获取商品列表服务函数
-func GetProductList(searchKey, productType string) (productList []map[string]interface{}, err error) {
+func GetProductList(searchKey string, productType int) (productList []map[string]interface{}, err error) {
 	// 调用数据库模型的方法获取商品列表
 	products, err := models.GetProductList(searchKey, productType)
 	if err != nil {
@@ -65,12 +65,13 @@ func GetProduct(productId int) (product map[string]interface{}, err error) {
 	}
 
 	product = map[string]interface{}{
-		"name":      theProduct.ID,
-		"price":     theProduct.Price,
-		"label":     theProduct.Description,
-		"sellerId":  theProduct.StoreId,
-		"creatData": theProduct.CreatedAt,
-		"sellerNum": theProduct.MonthNum,
+		"productId":   theProduct.ID,
+		"productName": theProduct.ProductName,
+		"price":       theProduct.Price,
+		"label":       theProduct.Description,
+		"sellerId":    theProduct.StoreId,
+		"creatData":   theProduct.CreatedAt,
+		"sellerNum":   theProduct.MonthNum,
 	}
 
 	return

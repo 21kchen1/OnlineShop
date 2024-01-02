@@ -1,9 +1,7 @@
 package models
 
 import (
-	"fmt"
 	mysql "onlineshop/mysql"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -72,11 +70,9 @@ func DeleteProductByID(id int) (err error) {
 }
 
 // GetProductList 获取商品列表
-func GetProductList(searchKey, productType string) (products []*Product, err error) {
+func GetProductList(searchKey string, productType int) (products []*Product, err error) {
 	// 构造查询条件
 	query := mysql.DB
-
-	fmt.Printf("Search Key: %s, Product Type: %s\n", searchKey, productType)
 
 	// 判断是否有搜索关键词，有则添加条件
 	if searchKey != "" {
@@ -84,7 +80,7 @@ func GetProductList(searchKey, productType string) (products []*Product, err err
 	}
 
 	// 判断是否有商品类型，有则添加条件
-	if productType != "" {
+	if productType != 0 {
 		query = query.Where("product_type = ?", productType)
 	}
 
