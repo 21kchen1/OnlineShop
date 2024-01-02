@@ -109,6 +109,7 @@ func SetupRouters() *gin.Engine {
 		orderGroup.POST("/orderList", controller.GetOrderList)
 		orderGroup.POST("/deleteOrder", controller.DeleteOrder)
 		orderGroup.POST("/editOrder", controller.EditOrder)
+		orderGroup.POST("/useGetList", controller.GetUserOrderList)
 	}
 
 	// 日志相关路由
