@@ -65,12 +65,13 @@ func GetProduct(productId int) (product map[string]interface{}, err error) {
 	}
 
 	product = map[string]interface{}{
-		"name":      theProduct.ID,
-		"price":     theProduct.Price,
-		"label":     theProduct.Description,
-		"sellerId":  theProduct.StoreId,
-		"creatData": theProduct.CreatedAt,
-		"sellerNum": theProduct.MonthNum,
+		"productId":   theProduct.ID,
+		"productName": theProduct.ProductName,
+		"price":       theProduct.Price,
+		"label":       theProduct.Description,
+		"sellerId":    theProduct.StoreId,
+		"creatData":   theProduct.CreatedAt,
+		"sellerNum":   theProduct.MonthNum,
 	}
 
 	return
