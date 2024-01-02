@@ -529,9 +529,8 @@ func GetUserInformation(c *gin.Context) {
 
 	// 返回结果
 	c.JSON(http.StatusOK, gin.H{
-		"isSuccess":   true,
-		"username":    user.UserName,
-		"email":       user.Email,
-		"phoneNumber": user.PhoneNum,
+		"isSuccess": true,
+		"msg":       "成功",
+		"data":      user,
 	})
 }
