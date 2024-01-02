@@ -15,43 +15,77 @@ import (
 var testFavoList = []models.Favorites {
 	{
 		UserID: 1,
-		FavoritesName: "114514",
-		Count: 15,
+		FavoritesName: "衣服",
+		Count: 4,
 	},
 	{
 		UserID: 1,
-		FavoritesName: "11454",
-		Count: 20,
+		FavoritesName: "裤子",
+		Count: 4,
 	},
 	{
 		UserID: 1,
-		FavoritesName: "11514",
-		Count: 30,
+		FavoritesName: "帽子",
+		Count: 4,
 	},
 }
 
 var testFPList = []models.FavoritesLinkProduct {
 	{
 		FavoritesID: 1,
-		ProductID: 1,
-	},
-	{
-		FavoritesID: 1,
-		ProductID: 2,
-	},
-	{
-		FavoritesID: 1,
 		ProductID: 5,
+	},
+	{
+		FavoritesID: 1,
+		ProductID: 6,
+	},
+	{
+		FavoritesID: 1,
+		ProductID: 7,
+	},
+	{
+		FavoritesID: 1,
+		ProductID: 8,
+	},
+	{
+		FavoritesID: 2,
+		ProductID: 9,
+	},
+	{
+		FavoritesID: 2,
+		ProductID: 10,
+	},
+	{
+		FavoritesID: 2,
+		ProductID: 11,
+	},
+	{
+		FavoritesID: 2,
+		ProductID: 12,
+	},
+	{
+		FavoritesID: 3,
+		ProductID: 13,
+	},
+	{
+		FavoritesID: 3,
+		ProductID: 14,
+	},
+	{
+		FavoritesID: 3,
+		ProductID: 15,
+	},
+	{
+		FavoritesID: 3,
+		ProductID: 16,
 	},
 }
 
-func AddFavoData() {
+func addFavoData() {
 	for i := range testFavoList {
 		service.AddFavorites(testFavoList[i])
 	}
-}
 
-func AddFPList() {
 	for i := range testFPList {
 		service.AddFavoProduct(testFPList[i])
 	}

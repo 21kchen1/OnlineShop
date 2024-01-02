@@ -63,5 +63,8 @@ func EditOrder(orderID, orderNumber, deliveryStatus int) error {
 
 // GetUserOrders 获取用户订单列表
 func GetUserOrders(userID int) ([]*models.Order, error) {
+	if userID == 0 {
+		return models.GetOrderList()
+	}
 	return models.GetUserOrders(userID)
 }
