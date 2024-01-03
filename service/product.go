@@ -73,6 +73,7 @@ func GetProduct(productId int) (product map[string]interface{}, err error) {
 		"creatData":   theProduct.CreatedAt,
 		"sellerNum":   theProduct.MonthNum,
 		"stock":       theProduct.Stock,
+		"status":      theProduct.ProductStatus,
 	}
 
 	return
