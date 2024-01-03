@@ -35,7 +35,7 @@ func GetProductIDByProductName(shopName string) (int, error) {
 }
 
 // GetShoppingCartDataByUserID 根据用户ID获取购物车数据
-func GetShoppingCartDataByUserID(userID int) (cartData []*models.ShoppingCartLinkProduct, err error) {
+func GetShoppingCartDataByUserID(userID int) (productList []map[string]interface{}, err error) {
 	// 根据用户ID获取购物车信息
 	userLinkShoppingcart, err := models.GetUserLinkShoppingcartByUserID(userID)
 	if err != nil {
@@ -43,12 +43,24 @@ func GetShoppingCartDataByUserID(userID int) (cartData []*models.ShoppingCartLin
 	}
 
 	// 根据购物车id获取购物车商品数据
-	cartData, err = models.GetShoppingCartLinkProductByShoppingCartID(userLinkShoppingcart.ShoppingCartID)
+	cartData, err := models.GetShoppingCartLinkProductByShoppingCartID(userLinkShoppingcart.ShoppingCartID)
 	if err != nil {
 		return nil, err
 	}
 
-	return cartData, nil
+	for _, item := range cartData {
+		product, _ := models.GetProductByID(item.ProductID)
+		repro := map[string]interface{} {
+			"id": item.ProductID,
+			"name": product.ProductName,
+			"price": product.Price,
+			"quantity": item.Quantity,
+			"storeId": product.StoreId,
+			"storeName": "黑黑",
+		}
+		productList = append(productList, repro)
+	}
+	return
 }
 
 // CheckUserShoppingCartLinkExists 检查 user_id - shopping_cart_id 是否存在

@@ -353,7 +353,7 @@ func GetSellerList(c *gin.Context) {
 func AddSeller(c *gin.Context) {
 	var requestData struct {
 		SellerName string `json:"sellername" binding:"required"`
-		Email      string `json:"mail" binding:"required"`
+		Email      string `json:"email" binding:"required"`
 		Phone      string `json:"phone"`
 		Password   string `json:"password" binding:"required"`
 		Address    string `json:"address"` // 确保包含地址
