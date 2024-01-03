@@ -7,7 +7,6 @@ package controller
  * @Date : 2023-12-29
  */
 import (
-	"fmt"
 	"net/http"
 	"onlineshop/models"
 	"onlineshop/service"
@@ -26,7 +25,6 @@ func GetOrderList(c *gin.Context) {
 	}
 
 	// 直接返回订单列表
-	fmt.Println("Order List:", orderList)
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "获取订单列表成功",
