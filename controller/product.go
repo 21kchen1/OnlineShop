@@ -12,7 +12,6 @@ import (
 	"onlineshop/models"
 	"onlineshop/service"
 	"onlineshop/util"
-	"strconv"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,7 +29,7 @@ func GetProductList(c *gin.Context) {
 	}
 
 	// 调用服务函数获取商品列表
-	productList, err := service.GetProductList(requestData.SearchKey, strconv.Itoa(requestData.ProductType))
+	productList, err := service.GetProductList(requestData.SearchKey, requestData.ProductType)
 	if err != nil {
 		util.ErrRespon(c, err, "获取商品列表失败")
 		return
@@ -229,5 +228,23 @@ func EditProductNum(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "修改商品数量成功",
+	})
+}
+
+// GetRecommendedProducts 获取主页推荐商品
+func GetRecommendedProducts(c *gin.Context) {
+	// 调用 service 层获取推荐商品的函数
+	recommendedProducts, err := service.GetRecommendedProducts()
+
+	if err != nil {
+		util.ErrRespon(c, err, "获取推荐商品失败")
+		return
+	}
+
+	// 返回推荐商品列表
+	c.JSON(http.StatusOK, gin.H{
+		"isSuccess": true,
+		"msg":       "获取推荐商品成功",
+		"data":      recommendedProducts,
 	})
 }

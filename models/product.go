@@ -1,9 +1,8 @@
 package models
 
 import (
-	"fmt"
-	"github.com/jinzhu/gorm"
 	mysql "onlineshop/mysql"
+	"github.com/jinzhu/gorm"
 )
 
 /**
@@ -71,11 +70,9 @@ func DeleteProductByID(id int) (err error) {
 }
 
 // GetProductList 获取商品列表
-func GetProductList(searchKey, productType string) (products []*Product, err error) {
+func GetProductList(searchKey string, productType int) (products []*Product, err error) {
 	// 构造查询条件
 	query := mysql.DB
-
-	fmt.Printf("Search Key: %s, Product Type: %s\n", searchKey, productType)
 
 	// 判断是否有搜索关键词，有则添加条件
 	if searchKey != "" {
@@ -83,7 +80,7 @@ func GetProductList(searchKey, productType string) (products []*Product, err err
 	}
 
 	// 判断是否有商品类型，有则添加条件
-	if productType != "" {
+	if productType != 0 {
 		query = query.Where("product_type = ?", productType)
 	}
 
@@ -94,4 +91,22 @@ func GetProductList(searchKey, productType string) (products []*Product, err err
 	}
 
 	return products, nil
+}
+
+// GetProductsByStoreID 根据商铺ID获取商品信息列表
+func GetProductsByStoreID(storeID int) (products []*Product, err error) {
+	err = mysql.DB.Where("store_id = ?", storeID).Find(&products).Error
+	return products, err
+}
+
+// GetProductIDByProductName 根据商品名称获取商品ID
+func GetProductIDByProductName(ProductName string) (int, error) {
+	var shop Product
+
+	err := mysql.DB.Where("product_name = ?", ProductName).First(&shop).Error
+	if err != nil {
+		return 0, err
+	}
+	return int(shop.ID), nil
+
 }

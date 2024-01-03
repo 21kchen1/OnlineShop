@@ -1,8 +1,9 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"onlineshop/controller"
+
+	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -11,9 +12,24 @@ import (
  * @Author : chen
  * @Date : 2023/12/03
  */
+// 处理 CORS 的中间件
+func CORS() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+		c.Next()
+	}
+}
 
 func SetupRouters() *gin.Engine {
 	r := gin.Default()
+	r.Use(CORS())
 
 	// 用户相关路由
 	userGroup := r.Group("/user")
@@ -30,6 +46,7 @@ func SetupRouters() *gin.Engine {
 		userGroup.POST("/delete", controller.DeleteUser)
 		//管理员获取用户列表
 		userGroup.GET("/getList", controller.GetUserList)
+		userGroup.POST("/getInf", controller.GetUserInformation)
 
 	}
 
@@ -53,7 +70,7 @@ func SetupRouters() *gin.Engine {
 		// 添加商品
 		productGroup.POST("/addProduct", controller.AddProduct)
 		// 根据商品id获取单个商品具体信息
-		productGroup.POST("/getProduct", controller.GetProduct)
+		productGroup.POST("/getProductInfo", controller.GetProduct)
 		// 根据商品id删除商品
 		productGroup.POST("/deleteProduct", controller.DeleteProduct)
 		// 根据商品id修改商品信息
@@ -64,6 +81,9 @@ func SetupRouters() *gin.Engine {
 		productGroup.POST("/editQuantity", controller.EditProductNum)
 		// 根据商品id查询其所有评论
 		productGroup.POST("/getComment", controller.GetCommentsByProductID)
+		// 获取主页推荐商品的路由
+		productGroup.POST("/recommend", controller.GetRecommendedProducts)
+
 	}
 
 	// 收藏夹列表
@@ -92,6 +112,47 @@ func SetupRouters() *gin.Engine {
 		commentGroup.POST("/add", controller.AddComment)
 		// 用户回复评论
 		commentGroup.POST("/reply", controller.AddReply)
+		commentGroup.POST("/delete", controller.DeleteComment)
+		// 获取所有评论
+		commentGroup.POST("/all", controller.GetAllComment)
 	}
+	// test
+
+	// 订单相关路由
+	orderGroup := r.Group("/order")
+	{
+		orderGroup.POST("/orderList", controller.GetOrderList)
+		orderGroup.POST("/deleteOrder", controller.DeleteOrder)
+		orderGroup.POST("/editOrder", controller.EditOrder)
+		orderGroup.POST("/useGetList", controller.GetUserOrderList)
+	}
+
+	// 日志相关路由
+	logGroup := r.Group("/log")
+	{
+		/*废除
+		logGroup.POST("/getInf", controller.GetOrderList)*/
+		logGroup.POST("/addLog", controller.AddLog)
+		logGroup.POST("/delLog", controller.DeleteLog)
+		logGroup.POST("/editLog", controller.EditLog)
+		logGroup.POST("/getInf", controller.GetLogList)
+	} //test
+
+	// 商铺相关路由
+	storeGroup := r.Group("/store")
+	{
+		storeGroup.POST("/getStoreInfo", controller.GetStoreID)
+		storeGroup.POST("/getProductsByStoreId", controller.GetProductsByStoreID)
+	}
+
+	//购物车相关路由
+	shopping_cartGroup := r.Group("/shoppingCart")
+	{
+		shopping_cartGroup.POST("/shopId", controller.GetShopIDByShopName)
+		shopping_cartGroup.POST("/productId", controller.GetProductIDByProductName)
+		shopping_cartGroup.POST("/cart", controller.GetShoppingCart)
+		shopping_cartGroup.POST("/updataQuantity", controller.CheckUserShoppingCartLinkExistsAndUpadteQuantity)
+	}
+
 	return r
 }
