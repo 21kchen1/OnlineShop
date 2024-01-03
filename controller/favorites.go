@@ -27,12 +27,10 @@ func GetFavoritesList(c *gin.Context) {
 	}
 
 	// 获取请求参数
-	// if err := c.ShouldBindJSON(&requestData); err != nil {
-	// 	util.ErrRespon(c, err, "获取参数失败")
-	// 	return
-	// }
-
-	requestData.UserId = 1
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		util.ErrRespon(c, err, "获取参数失败")
+		return
+	}
 
 	// 获取收藏夹列表
 	favList, err := service.GetFavoritesList(requestData.UserId)
