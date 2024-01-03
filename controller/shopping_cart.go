@@ -100,7 +100,7 @@ func GetShoppingCart(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 		"msg":       "成功获取购物车数据",
-		"cartItems": cartData,
+		"data":      cartData,
 	})
 }
 
